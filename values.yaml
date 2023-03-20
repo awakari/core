@@ -1,0 +1,52 @@
+mongodb:
+  auth:
+    enabled: true
+  metrics:
+    enabled: true
+
+conditions:
+  kiwi-tree: true
+  # kiwi-bird: true
+  # etc
+
+conditions-kiwi-tree-complete:
+  db:
+    name: conditions-kiwi-tree-complete
+    username: root
+    password:
+      secret:
+        enabled: true
+
+conditions-kiwi-tree-partial:
+  db:
+    name: conditions-kiwi-tree-partial
+    username: root
+    password:
+      secret:
+        enabled: true
+
+subscriptions:
+  api:
+    uri:
+      kiwi:
+        tree:
+          complete: "conditions-kiwi-tree-complete:8080"
+          partial: "conditions-kiwi-tree-partial:8080"
+  db:
+    username: root
+    password:
+      secret:
+        enabled: true
+
+matches:
+  db:
+    username: root
+    password:
+      secret:
+        enabled: true
+
+queue:
+  nats: true
+  # kafka: false
+  # sqs: false
+  # etc
