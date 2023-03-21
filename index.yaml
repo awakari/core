@@ -1,0 +1,46 @@
+apiVersion: v1
+entries:
+  core:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2023-03-21T09:34:03.719415618Z"
+    dependencies:
+    - alias: mongodb
+      name: mongodb-sharded
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.3.1
+    - alias: queue
+      condition: queue.backend.nats
+      name: queue-nats
+      repository: https://awakari.github.io/queue-nats
+      version: 0.0.0
+    - name: matches
+      repository: https://awakari.github.io/matches
+      version: 0.0.0
+    - name: router
+      repository: https://awakari.github.io/router
+      version: 0.0.0
+    - alias: conditions-kiwi-tree-complete
+      condition: conditions.kiwi.tree
+      name: kiwi-tree
+      repository: https://awakari.github.io/kiwi-tree
+      version: 0.0.0
+    - alias: conditions-kiwi-tree-partial
+      condition: conditions.kiwi.tree
+      name: kiwi-tree
+      repository: https://awakari.github.io/kiwi-tree
+      version: 0.0.0
+    - name: subscriptions
+      repository: https://awakari.github.io/subscriptions
+      version: 0.0.0
+    - name: resolver
+      repository: https://awakari.github.io/resolver
+      version: 0.0.0
+    description: Helm chart for the Awakari Core system deployment
+    digest: ac005c9e7ef5d4c0664bae214bfaa743af9fe7a2bedee1a65a3fd1a59a1d2909
+    name: core
+    type: application
+    urls:
+    - core-0.0.0.tgz
+    version: 0.0.0
+generated: "2023-03-21T09:34:03.709340181Z"
