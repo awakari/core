@@ -1,6 +1,6 @@
 apiVersion: v2
 name: core
-description: Helm chart for the core system deployment with NATS queues
+description: Helm chart for the Awakari Core system deployment
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -30,32 +30,36 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     alias: mongodb
 
-  - name: kiwi-tree
+  - name: queue-nats
     version: 0.0.0
-    repository: "https://awakari.github.io/kiwi-tree"
-    alias: conditions-kiwi-tree-complete
-    condition: conditions.kiwi-tree
-  - name: kiwi-tree
-    version: 0.0.0
-    repository: "https://awakari.github.io/kiwi-tree"
-    alias: conditions-kiwi-tree-partial
-    condition: conditions.kiwi-tree
-  - name: subscriptions
-    version: 0.0.0
-    repository: "https://awakari.github.io/subscriptions"
+    repository: "https://awakari.github.io/queue-nats"
+    condition: queue.backend.nats
+    alias: queue
+
   - name: matches
     version: 0.0.0
     repository: "https://awakari.github.io/matches"
 
-  - name: queue-nats
+  - name: router
     version: 0.0.0
-    repository: "https://awakari.github.io/queue-nats"
-    condition: queue.nats
-    alias: queue
+    repository: "https://awakari.github.io/router"
 
-#  - name: router
-#    version: 0.0.0
-#    repository: "https://awakari.github.io/router"
-#  - name: resolver
-#    version: 0.0.0
-#    repository: "https://awakari.github.io/resolver"
+  - name: kiwi-tree
+    version: 0.0.0
+    repository: "https://awakari.github.io/kiwi-tree"
+    alias: conditions-kiwi-tree-complete
+    condition: conditions.kiwi.tree
+
+  - name: kiwi-tree
+    version: 0.0.0
+    repository: "https://awakari.github.io/kiwi-tree"
+    alias: conditions-kiwi-tree-partial
+    condition: conditions.kiwi.tree
+
+  - name: subscriptions
+    version: 0.0.0
+    repository: "https://awakari.github.io/subscriptions"
+
+  - name: resolver
+    version: 0.0.0
+    repository: "https://awakari.github.io/resolver"
