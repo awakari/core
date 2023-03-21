@@ -25,6 +25,7 @@ jobs:
 
       - name: Build Helm Chart
         run: |
+          helm dependency update
           mkdir package
           helm package . --version ${CHART_VERSION} --destination package
           cd package
