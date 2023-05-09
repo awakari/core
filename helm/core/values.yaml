@@ -1,0 +1,122 @@
+test:
+  enabled: true
+
+conditions:
+  kiwi:
+    tree: true
+    # bird: true
+  # etc
+
+mongodb:
+  auth:
+    enabled: true
+  metrics:
+    enabled: true
+  configsvr:
+    mongodbExtraFlags:
+      - "--tlsMode disabled"
+  mongos:
+    mongodbExtraFlags:
+      - "--tlsMode disabled"
+
+nats:
+  auth:
+    enabled: true
+    user: "awakari"
+    password: "awakari"
+  jetstream:
+    enabled: true
+  persistence:
+    enabled: true
+  resourceType: "statefulset"
+  replicaCount: 3
+
+queue:
+  backend:
+    nats: true
+  nats:
+    uri: "nats://core-nats:4222"
+
+conditions-kiwi-tree-complete:
+  db:
+    hostname: "core-mongodb:27017"
+    name: kiwi-tree
+    table:
+      # Database table name to use.
+      name: "kiwi-tree-complete"
+    username: "root"
+    password:
+      secret:
+        enabled: true
+        name: "core-mongodb"
+
+conditions-kiwi-tree-partial:
+  db:
+    hostname: "core-mongodb:27017"
+    table:
+      # Database table name to use.
+      name: "kiwi-tree-partial"
+    username: "root"
+    password:
+      secret:
+        enabled: true
+        name: "core-mongodb"
+
+matches:
+  # Database related configuration.
+  db:
+    hostname: "core-mongodb:27017"
+    # Database name to use.
+    username: "root"
+    password:
+      secret:
+        enabled: true
+        name: "core-mongodb"
+
+subscriptions:
+  api:
+    uri:
+      kiwi:
+        tree:
+          complete: "core-conditions-kiwi-tree-complete:50051"
+          partial: "core-conditions-kiwi-tree-partial:50051"
+  db:
+    hostname: "core-mongodb:27017"
+    username: "root"
+    password:
+      secret:
+        enabled: true
+        name: "core-mongodb"
+
+messages:
+  api:
+    matches:
+      uri: "core-matches:50051"
+  # Database related configuration.
+  db:
+    hostname: "core-mongodb:27017"
+    username: "root"
+    password:
+      secret:
+        enabled: true
+        name: "core-mongodb"
+  nats:
+    uri: "nats://core-nats:4222"
+  queue:
+    uri: "core-queue:50051"
+
+writer:
+  api:
+    conditions:
+      kiwi:
+        tree:
+          completeUri: "conditions-kiwi-tree-complete:50051"
+          partialUri: "conditions-kiwi-tree-partial:50051"
+    subscriptions:
+      uri: "core-subscriptions:50051"
+    matches:
+      uri: "core-matches:50051"
+    messages:
+      uri: "core-messages:50051"
+  queue:
+    uri: "core-queue:50051"

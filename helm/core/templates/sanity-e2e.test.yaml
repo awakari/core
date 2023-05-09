@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sanity-e2e-test
+spec:
+  template:
+    spec:
+      containers:
+        - name: sanity-e2e-test
+          image: ghcr.io/awakari/sanity-e2e-test:latest
+          command: ["./runtests.sh"]
+      restartPolicy: Never

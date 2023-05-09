@@ -26,9 +26,15 @@ appVersion: "latest"
 dependencies:
 
   - name: mongodb-sharded
-    version: 6.3.1
+    version: 6.3.2
     repository: https://charts.bitnami.com/bitnami
     alias: mongodb
+
+  - name: nats
+    version: 7.5.13
+    repository: https://charts.bitnami.com/bitnami
+    condition: queue.backend.nats
+    alias: nats
 
   - name: queue-nats
     version: 0.0.0
@@ -39,10 +45,6 @@ dependencies:
   - name: matches
     version: 0.0.0
     repository: "https://awakari.github.io/matches"
-
-  - name: router
-    version: 0.0.0
-    repository: "https://awakari.github.io/router"
 
   - name: kiwi-tree
     version: 0.0.0
@@ -60,6 +62,10 @@ dependencies:
     version: 0.0.0
     repository: "https://awakari.github.io/subscriptions"
 
-  - name: resolver
+  - name: messages
     version: 0.0.0
-    repository: "https://awakari.github.io/resolver"
+    repository: "https://awakari.github.io/messages"
+
+  - name: writer
+    version: 0.0.0
+    repository: "https://awakari.github.io/writer"
