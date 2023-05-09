@@ -38,6 +38,7 @@ helm install core core-0.0.0.tgz -n awakari
 ```
 
 > **Warning**
+> 
 > Do not change the "core" release name
 
 Or use an existing:
