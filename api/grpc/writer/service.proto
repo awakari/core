@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package awakari.writer;
+
+option go_package = "api/grpc/writer";
+
+import "api/grpc/cloudevents/cloudevent.proto";
+
+service Service {
+  rpc SubmitMessages(stream SubmitMessagesRequest) returns (stream SubmitMessagesResponse);
+}
+
+message SubmitMessagesRequest {
+  repeated pb.CloudEvent msgs = 1;
+}
+
+message SubmitMessagesResponse {
+  uint32 ackCount = 1;
+}

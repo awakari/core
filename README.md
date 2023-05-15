@@ -1,3 +1,20 @@
+# Contents
+
+1. [Overview](#1-overview)<br/>
+2. [Configuration](#2-configuration)<br/>
+3. [Deployment](#3-deployment)<br/>
+4. [Usage](#4-usage)<br/>
+5. [Design](#5-design)<br/>
+6. [Contributing](#6-contributing)<br/>
+   6.1. [Versioning](#61-versioning)<br/>
+   6.2. [Issue Reporting](#62-issue-reporting)<br/>
+   6.3. [Building](#63-building)<br/>
+   6.4. [Testing](#64-testing)<br/>
+   &nbsp;&nbsp;&nbsp;6.4.1. [Functional](#641-functional)<br/>
+   &nbsp;&nbsp;&nbsp;6.4.2. [Performance](#642-performance)<br/>
+   6.5. [Releasing](#65-releasing)<br/>
+
+
 # 1. Overview
 
 This repo contains the Helm chart for the Awakari Core system deployment.
@@ -22,11 +39,6 @@ For a component-specific options see the corresponding sub-chart configuration. 
 
 # 3. Deployment
 
-Build a helm package:
-```shell
-helm package helm/core
-```
-
 Create the target namespace:
 ```shell
 kubectl create namespace awakari
@@ -49,6 +61,61 @@ helm install core awakari-core/core \
 
 TODO
 
-# 5. Testing
+# 5. Design
+
+The core of Awakari consist of:
+* [Writer](https://github.com/awakari/writer)
+* [Subscriptions](https://github.com/awakari/subscriptions)
+* Conditions, e.g. [Kiwi Tree](https://github.com/awakari/kiwi-tree)
+* [Matches](https://github.com/awakari/matches)
+* [Messages](https://github.com/awakari/messages)
+
+![components](doc/components-core.png)
+
+# 6. Contributing
+
+## 6.1. Versioning
+
+The service uses the [semantic versioning](http://semver.org/).
+The single source of the version info is the git tag:
+```shell
+git describe --tags --abbrev=0
+```
+
+## 6.2. Issue Reporting
 
 TODO
+
+## 6.3. Building
+
+Build a helm package:
+```shell
+helm package helm/core
+```
+
+## 6.4. Testing
+
+### 6.4.1. Functional
+
+Port-forward the core public API to local:
+* messages to local port 50051
+* subscriptions to local port 50052
+* writer to local port 50053
+
+```shell
+make test
+```
+
+### 6.4.2. Performance
+
+TODO
+
+## 6.5. Releasing
+
+To release a new version (e.g. `1.2.3`) it's enough to put a git tag:
+```shell
+git tag -v1.2.3
+git push --tags
+```
+
+The corresponding CI job is started to build a helm chart and publish it with the specified tag (+latest).

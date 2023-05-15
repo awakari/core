@@ -110,8 +110,8 @@ writer:
     conditions:
       kiwi:
         tree:
-          completeUri: "conditions-kiwi-tree-complete:50051"
-          partialUri: "conditions-kiwi-tree-partial:50051"
+          completeUri: "core-conditions-kiwi-tree-complete:50051"
+          partialUri: "core-conditions-kiwi-tree-partial:50051"
     subscriptions:
       uri: "core-subscriptions:50051"
     matches:
