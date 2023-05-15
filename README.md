@@ -49,9 +49,13 @@ Install the package built locally:
 helm install core core-0.0.0.tgz -n awakari
 ```
 
+> **Warning**
+> 
+> Do not change the "core" release name
+
 Or use an existing:
 ```shell
-helm repo add awakari-core https://awakari.github.io/helm-core
+helm repo add awakari-core https://awakari.github.io/core
 
 helm install core awakari-core/core \
   -n awakari
