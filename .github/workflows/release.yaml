@@ -47,10 +47,10 @@ jobs:
         run: |
           export VERSION=$(git describe --tags --abbrev=0 | cut -c 2-)
           echo ${VERSION}
-          helm dependency update
-          mkdir package
-          helm package . --version ${VERSION} --destination package
-          cd package
+          helm dependency update helm/core
+          mkdir helm/package
+          helm package helm/core/ --version ${VERSION} --destination helm/package
+          cd helm/package
           helm repo index .
 
       - name: Publish Helm Chart

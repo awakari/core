@@ -19,13 +19,7 @@ jobs:
         with:
           version: v3.7.0
 
-      - name: Build Helm Chart
+      - name: Lint Helm Chart
         run: |
-          helm dependency update
+          helm dependency update helm/core
           helm lint helm/core
-
-      - name: Publish Helm Chart
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: package

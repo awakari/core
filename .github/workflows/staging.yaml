@@ -46,10 +46,10 @@ jobs:
 
       - name: Build Helm Chart
         run: |
-          helm dependency update
-          mkdir package
-          helm package . --version 0.0.0 --destination package
-          cd package
+          helm dependency update helm/core
+          mkdir helm/package
+          helm package helm/core/ --version 0.0.0 --destination helm/package
+          cd helm/package
           helm repo index .
 
       - name: Publish Helm Chart
