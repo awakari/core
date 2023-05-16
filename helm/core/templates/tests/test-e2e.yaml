@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "core.fullname" . }}-test-e2e"
+  name: "{{ include "core.fullname" . }}-test"
   labels:
     {{- include "core.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: test-e2e
-      image: ghcr.io/awakari/core
+    - name: test
+      image: ghcr.io/awakari/core-tests
       command:
         - /usr/bin/make
       args:
