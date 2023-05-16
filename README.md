@@ -101,11 +101,14 @@ helm package helm/core
 
 ### 6.4.1. Functional
 
-Port-forward the core public API to local:
+The repo contains core functional end-to-end tests.
+
+To run these tests, first port-forward the core public API to local:
 * messages to local port 50051
 * subscriptions to local port 50052
 * writer to local port 50053
 
+Then:
 ```shell
 make test
 ```

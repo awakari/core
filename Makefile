@@ -10,17 +10,15 @@ proto:
 		api/grpc/writer/*.proto
 
 test: proto
-	go test -race ./...
+	CGO_ENABLED=1 go test -race ./...
 
 docker:
 	docker build -t awakari/core-tests .
 
 run: docker
 	docker run \
-		-d \
 		--name awakari-core-tests \
-		-p 50051:50051 \
-		--expose 50051 \
+		--network host \
 		awakari/core-tests
 
 staging: docker
