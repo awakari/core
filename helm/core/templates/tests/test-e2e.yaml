@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "core.fullname" . }}-test-e2e"
+  labels:
+    {{- include "core.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: test-e2e
+      image: ghcr.io/awakari/core
+      command:
+        - /usr/bin/make
+      args:
+        - test
+  restartPolicy: Never

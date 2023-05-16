@@ -1,14 +1,10 @@
-name: Publish
+name: Testing
 
 on:
   push:
     branches:
-      - "master"
-
-env:
-  COMPONENT: core
-  VERSION: latest
-  CHART_VERSION: 0.0.0
+      - "*"
+      - "!master"
 
 jobs:
 
@@ -26,10 +22,7 @@ jobs:
       - name: Build Helm Chart
         run: |
           helm dependency update
-          mkdir package
-          helm package . --version ${CHART_VERSION} --destination package
-          cd package
-          helm repo index .
+          helm lint helm/core
 
       - name: Publish Helm Chart
         uses: peaceiris/actions-gh-pages@v3

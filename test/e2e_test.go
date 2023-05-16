@@ -44,7 +44,7 @@ func Test_MessageDelivery(t *testing.T) {
 	for _, sub := range data.Subs {
 		var resp *subscriptions.CreateResponse
 		resp, err = clientSubs.Create(ctxUser, &sub)
-		require.Nil(t, err)
+		require.Nil(t, err, err)
 		subIds = append(subIds, resp.Id)
 	}
 	//
