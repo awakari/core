@@ -1,3 +1,6 @@
+image:
+  pullPolicy: IfNotPresent
+
 nameOverride: ""
 fullnameOverride: ""
 serviceAccount:

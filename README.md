@@ -103,14 +103,19 @@ helm package helm/core
 
 The repo contains core functional end-to-end tests.
 
-To run these tests, first port-forward the core public API to local:
-* messages to local port 50051
-* subscriptions to local port 50052
-* writer to local port 50053
+To run the tests locally:
 
-Then:
-```shell
+1. Port-forward messages API to local port 50051
+2. Port-forward subscriptions API to local port 50052
+3. Port-forward writer API to local port 50053
+4. 
+```shell 
 make test
+```
+
+To run the tests in K8s cluster:
+```shell
+helm test core -n awakari --filter name=core-test
 ```
 
 ### 6.4.2. Performance

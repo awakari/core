@@ -9,6 +9,7 @@ metadata:
 spec:
   containers:
     - name: test
+      imagePullPolicy: {{ .Values.image.pullPolicy }}
       image: ghcr.io/awakari/core-tests
       command:
         - /usr/bin/make
