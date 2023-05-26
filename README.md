@@ -46,7 +46,7 @@ kubectl create namespace awakari
 
 Install the package built locally:
 ```shell
-helm install core core-0.0.0.tgz -n awakari
+**helm install core core-0.0.0.tgz -n awakari**
 ```
 
 > **Warning**

@@ -19,16 +19,39 @@ conditions:
   # etc
 
 mongodb:
+  internal: true
   auth:
     enabled: true
   metrics:
     enabled: true
+  shards: 2
   configsvr:
+    replicaCount: 1
     mongodbExtraFlags:
       - "--tlsMode disabled"
+    persistence:
+      size: 1Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
   mongos:
+    replicaCount: 1
     mongodbExtraFlags:
       - "--tlsMode disabled"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+  shardsvr:
+    dataNode:
+      replicaCount: 2
+    persistence:
+      size: 1Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
 
 nats:
   auth:
@@ -41,6 +64,10 @@ nats:
     enabled: true
   resourceType: "statefulset"
   replicaCount: 3
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
 
 queue:
   backend:

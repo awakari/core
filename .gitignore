@@ -17,5 +17,5 @@ cover.tmp
 vendor/
 **/*.pb.go
 
-helm/api/values-dev.yaml
+helm/api/values-mongodb-ext-dev.yaml
 ghcr_io_pat.txt

@@ -3,7 +3,6 @@ package data
 import (
 	"github.com/awakari/core/api/grpc/writer"
 	"github.com/cloudevents/sdk-go/binding/format/protobuf/v2/pb"
-	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )
@@ -11,7 +10,7 @@ import (
 var Msgs = writer.SubmitMessagesRequest{
 	Msgs: []*pb.CloudEvent{
 		{
-			Id:          uuid.NewString(),
+			Id:          "test-msg0",
 			Source:      "http://arxiv.org/abs/2305.06364",
 			SpecVersion: "1.0",
 			Type:        "com.github.awakari.producer-rss",
@@ -37,7 +36,7 @@ var Msgs = writer.SubmitMessagesRequest{
 			},
 		},
 		{
-			Id:          uuid.NewString(),
+			Id:          "test-msg1",
 			Source:      "https://www.bbc.co.uk/news/business-65574826?at_medium=RSS&amp;at_campaign=KARANGA",
 			SpecVersion: "1.0",
 			Type:        "com.github.awakari.producer-rss",
@@ -63,7 +62,7 @@ var Msgs = writer.SubmitMessagesRequest{
 			},
 		},
 		{
-			Id:          uuid.NewString(),
+			Id:          "test-msg2",
 			Source:      "https://lenta.ru/news/2023/05/12/mjfox_depression/",
 			SpecVersion: "1.0",
 			Type:        "com.github.awakari.producer-rss",
@@ -104,7 +103,7 @@ var Msgs = writer.SubmitMessagesRequest{
 			},
 		},
 		{
-			Id:          uuid.NewString(),
+			Id:          "test-msg3",
 			Source:      "https://yle.fi/a/74-20031356?origin=rss",
 			SpecVersion: "1.0",
 			Type:        "com.github.awakari.producer-rss",
@@ -145,7 +144,7 @@ var Msgs = writer.SubmitMessagesRequest{
 			},
 		},
 		{
-			Id:          uuid.NewString(),
+			Id:          "test-msg4",
 			Source:      "github.com/awakari/tgbot",
 			SpecVersion: "1.0",
 			Type:        "com.github.awakari.tgbot",

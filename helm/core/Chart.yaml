@@ -28,6 +28,7 @@ dependencies:
   - name: mongodb-sharded
     version: 6.3.2
     repository: https://charts.bitnami.com/bitnami
+    condition: mongodb.internal
     alias: mongodb
 
   - name: nats
