@@ -1,174 +1,141 @@
 package data
 
-import "github.com/awakari/core/api/grpc/subscriptions"
+import (
+	"github.com/awakari/client-sdk-go/model/subscription"
+	"github.com/awakari/client-sdk-go/model/subscription/condition"
+)
 
-var Subs = []subscriptions.CreateRequest{
+var Subs = []subscription.Data{
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "disabled",
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Ktc{
-				Ktc: &subscriptions.KiwiTreeConditionInput{
-					Key:     "author",
-					Pattern: "Edna",
-				},
-			},
-		},
+		Condition: condition.
+			NewBuilder().
+			MatchAttrKey("author").
+			MatchAttrValuePattern("Edna").
+			BuildKiwiTreeCondition(),
 	},
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "exact complete value match for a key",
 			Enabled:     true,
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Ktc{
-				Ktc: &subscriptions.KiwiTreeConditionInput{
-					Key:     "author",
-					Pattern: "Edna",
-				},
-			},
-		},
+		Condition: condition.
+			NewBuilder().
+			MatchAttrKey("author").
+			MatchAttrValuePattern("Edna").
+			BuildKiwiTreeCondition(),
 	},
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "partial exact match",
 			Enabled:     true,
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Ktc{
-				Ktc: &subscriptions.KiwiTreeConditionInput{
-					Key:     "tags",
-					Pattern: "neutrino",
-					Partial: true,
-				},
-			},
-		},
+		Condition: condition.
+			NewBuilder().
+			MatchAttrValuePartial().
+			MatchAttrKey("tags").
+			MatchAttrValuePattern("neutrino").
+			BuildKiwiTreeCondition(),
 	},
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "basic group condition with \"and\" logic and partial sub-conditions",
 			Enabled:     true,
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Gc{
-				Gc: &subscriptions.GroupConditionInput{
-					Logic: 0,
-					Group: []*subscriptions.ConditionInput{
-						{
-							Cond: &subscriptions.ConditionInput_Ktc{
-								Ktc: &subscriptions.KiwiTreeConditionInput{
-									Key:     "title",
-									Pattern: "Elon",
-									Partial: true,
-								},
-							},
-						},
-						{
-							Cond: &subscriptions.ConditionInput_Ktc{
-								Ktc: &subscriptions.KiwiTreeConditionInput{
-									Key:     "title",
-									Pattern: "Musk",
-									Partial: true,
-								},
-							},
-						},
-					},
+		Condition: condition.
+			NewBuilder().
+			GroupLogic(condition.GroupLogicAnd).
+			GroupChildren(
+				[]condition.Condition{
+					condition.
+						NewBuilder().
+						MatchAttrKey("title").
+						MatchAttrValuePattern("Elon").
+						MatchAttrValuePartial().
+						BuildKiwiTreeCondition(),
+					condition.
+						NewBuilder().
+						MatchAttrKey("title").
+						MatchAttrValuePattern("Musk").
+						MatchAttrValuePartial().
+						BuildKiwiTreeCondition(),
 				},
-			},
-		},
+			).
+			BuildGroupCondition(),
 	},
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "basic group condition with \"or\" logic",
 			Enabled:     true,
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Gc{
-				Gc: &subscriptions.GroupConditionInput{
-					Logic: 1,
-					Group: []*subscriptions.ConditionInput{
-						{
-							Cond: &subscriptions.ConditionInput_Ktc{
-								Ktc: &subscriptions.KiwiTreeConditionInput{
-									Key:     "language",
-									Pattern: "fi",
-								},
-							},
-						},
-						{
-							Cond: &subscriptions.ConditionInput_Ktc{
-								Ktc: &subscriptions.KiwiTreeConditionInput{
-									Key:     "language",
-									Pattern: "ru",
-								},
-							},
-						},
-					},
+		Condition: condition.
+			NewBuilder().
+			GroupLogic(condition.GroupLogicOr).
+			GroupChildren(
+				[]condition.Condition{
+					condition.
+						NewBuilder().
+						MatchAttrKey("language").
+						MatchAttrValuePattern("fi").
+						BuildKiwiTreeCondition(),
+					condition.
+						NewBuilder().
+						MatchAttrKey("language").
+						MatchAttrValuePattern("ru").
+						BuildKiwiTreeCondition(),
 				},
-			},
-		},
+			).
+			BuildGroupCondition(),
 	},
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "basic group condition with \"and\" logic and a negative sub-condition",
 			Enabled:     true,
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Gc{
-				Gc: &subscriptions.GroupConditionInput{
-					Logic: 0,
-					Group: []*subscriptions.ConditionInput{
-						{
-							Not: true,
-							Cond: &subscriptions.ConditionInput_Ktc{
-								Ktc: &subscriptions.KiwiTreeConditionInput{
-									Key:     "type",
-									Pattern: "com.github.awakari.tgbot",
-								},
-							},
-						},
-						{
-							Cond: &subscriptions.ConditionInput_Ktc{
-								Ktc: &subscriptions.KiwiTreeConditionInput{
-									Key:     "summary",
-									Pattern: "of",
-									Partial: true,
-								},
-							},
-						},
-					},
+		Condition: condition.
+			NewBuilder().
+			GroupLogic(condition.GroupLogicAnd).
+			GroupChildren(
+				[]condition.Condition{
+					condition.
+						NewBuilder().
+						Negation().
+						MatchAttrKey("type").
+						MatchAttrValuePattern("com.github.awakari.tgbot").
+						BuildKiwiTreeCondition(),
+					condition.
+						NewBuilder().
+						MatchAttrKey("summary").
+						MatchAttrValuePattern("of").
+						MatchAttrValuePartial().
+						BuildKiwiTreeCondition(),
 				},
-			},
-		},
+			).
+			BuildGroupCondition(),
 	},
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "single symbol wildcard",
 			Enabled:     true,
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Ktc{
-				Ktc: &subscriptions.KiwiTreeConditionInput{
-					Key:     "title",
-					Pattern: "?eutrino",
-					Partial: true,
-				},
-			},
-		},
+		Condition: condition.
+			NewBuilder().
+			MatchAttrValuePartial().
+			MatchAttrKey("title").
+			MatchAttrValuePattern("?eutrino").
+			BuildKiwiTreeCondition(),
 	},
 	{
-		Md: &subscriptions.Metadata{
+		Metadata: subscription.Metadata{
 			Description: "multiple symbol wildcard",
 			Enabled:     true,
 		},
-		Cond: &subscriptions.ConditionInput{
-			Cond: &subscriptions.ConditionInput_Ktc{
-				Ktc: &subscriptions.KiwiTreeConditionInput{
-					Key:     "time",
-					Pattern: "2023-05-12T16*",
-				},
-			},
-		},
+		Condition: condition.
+			NewBuilder().
+			MatchAttrKey("time").
+			MatchAttrValuePattern("2023-05-12T16*").
+			BuildKiwiTreeCondition(),
 	},
 }

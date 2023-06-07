@@ -69,6 +69,12 @@ nats:
       cpu: 10m
       memory: 32Mi
 
+semaphore:
+  backend:
+    nats: true
+  nats:
+    uri: "nats://core-nats:4222"
+
 queue:
   backend:
     nats: true
@@ -111,6 +117,15 @@ matches:
         enabled: true
         name: "core-mongodb"
 
+messages:
+  db:
+    hostname: "core-mongodb:27017"
+    username: "root"
+    password:
+      secret:
+        enabled: true
+        name: "core-mongodb"
+
 subscriptions:
   api:
     uri:
@@ -126,22 +141,14 @@ subscriptions:
         enabled: true
         name: "core-mongodb"
 
-messages:
+reader:
   api:
     matches:
       uri: "core-matches:50051"
-  # Database related configuration.
-  db:
-    hostname: "core-mongodb:27017"
-    username: "root"
-    password:
-      secret:
-        enabled: true
-        name: "core-mongodb"
-  nats:
-    uri: "nats://core-nats:4222"
-  queue:
-    uri: "core-queue:50051"
+    messages:
+      uri: "core-messages:50051"
+    semaphore:
+      uri: "core-semaphore:50051"
 
 writer:
   api:
@@ -156,5 +163,7 @@ writer:
       uri: "core-matches:50051"
     messages:
       uri: "core-messages:50051"
+    reader:
+      uri: "core-reader:50051"
   queue:
     uri: "core-queue:50051"

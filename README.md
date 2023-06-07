@@ -22,20 +22,23 @@ The chart deploys the following minimum set of components:
 1. Sharded MongoDB
 2. NATS in the Jetstream mode (if NATS usage is enabled).
 3. Specific queue wrapper service (e.g. [queue-nats](https://github.com/awakari/queue-nats))
-4. Specific condition services (e.g. [kiwi-tree](https://github.com/awakari/kiwi-tree))
-5. [Subscriptions](https://github.com/awakari/subscriptions) service
-6. [Matches](https://github.com/awakari/matches) service
-7. [Messages](https://github.com/awakari/messages) service
-8. [Writer](https://github.com/awakari/writer) service
+4. Specific distributed semaphore service (e.g. [semaphore-nats](https://github.com/awakari/semaphore-nats))
+5. Specific condition services (e.g. [kiwi-tree](https://github.com/awakari/kiwi-tree))
+6. [Subscriptions](https://github.com/awakari/subscriptions) service
+7. [Matches](https://github.com/awakari/matches) service
+8. [Messages](https://github.com/awakari/messages) service
+9. [Reader](https://github.com/awakari/reader) service
+10. [Writer](https://github.com/awakari/writer) service
 
 # 2. Configuration
 
 For a component-specific options see the corresponding sub-chart configuration. Here follow own configuration options: 
 
-| Variable             | Default | Description                                                                                                      |
-|----------------------|---------|------------------------------------------------------------------------------------------------------------------|
-| conditions.kiwi.tree | `true`  | Enables the kiwi-tree conditions usage. May be used together with other conditions implementations.              | 
-| queue.backend.nats   | `true`  | Enables the NATS JetStream queue wrapper service. Exclusive, can not be used together with other queue backends. |
+| Variable               | Default | Description                                                                                                              |
+|------------------------|---------|--------------------------------------------------------------------------------------------------------------------------|
+| conditions.kiwi.tree   | `true`  | Enables the kiwi-tree conditions usage. May be used together with other conditions implementations.                      | 
+| queue.backend.nats     | `true`  | Enables the NATS JetStream queue wrapper service. Exclusive, can not be used together with other queue backends.         |
+| semaphore.backend.nats | `true`  | Enables the NATS-based distributed semaphore service. Exclusive, can not be used together with other semaphore backends. |
 
 # 3. Deployment
 
@@ -46,7 +49,7 @@ kubectl create namespace awakari
 
 Install the package built locally:
 ```shell
-**helm install core core-0.0.0.tgz -n awakari**
+helm install core core-0.0.0.tgz -n awakari
 ```
 
 > **Warning**
@@ -68,11 +71,15 @@ TODO
 # 5. Design
 
 The core of Awakari consist of:
-* [Writer](https://github.com/awakari/writer)
-* [Subscriptions](https://github.com/awakari/subscriptions)
-* Conditions, e.g. [Kiwi Tree](https://github.com/awakari/kiwi-tree)
-* [Matches](https://github.com/awakari/matches)
-* [Messages](https://github.com/awakari/messages)
+* Storages
+  * [Subscriptions](https://github.com/awakari/subscriptions)
+  * Conditions, e.g. [Kiwi Tree](https://github.com/awakari/kiwi-tree)
+  * [Matches](https://github.com/awakari/matches)
+  * [Messages](https://github.com/awakari/messages)
+* Stateless components
+  * [Writer](https://github.com/awakari/writer)
+  * [Reader](https://github.com/awakari/reader)
+
 
 ![components](doc/components-core.png)
 
@@ -105,9 +112,9 @@ The repo contains core functional end-to-end tests.
 
 To run the tests locally:
 
-1. Port-forward messages API to local port 50051
-2. Port-forward subscriptions API to local port 50052
-3. Port-forward writer API to local port 50053
+1. Port-forward the reader API to local port 50051
+2. Port-forward the subscriptions API to local port 50052
+3. Port-forward the writer API to local port 50053
 4. 
 ```shell 
 make test
