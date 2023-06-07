@@ -37,15 +37,17 @@ dependencies:
     condition: queue.backend.nats
     alias: nats
 
+  - name: semaphore-nats
+    version: 0.0.0
+    repository: "https://awakari.github.io/semaphore-nats"
+    condition: semaphore.backend.nats
+    alias: semaphore
+
   - name: queue-nats
     version: 0.0.0
     repository: "https://awakari.github.io/queue-nats"
     condition: queue.backend.nats
     alias: queue
-
-  - name: matches
-    version: 0.0.0
-    repository: "https://awakari.github.io/matches"
 
   - name: kiwi-tree
     version: 0.0.0
@@ -59,13 +61,21 @@ dependencies:
     alias: conditions-kiwi-tree-partial
     condition: conditions.kiwi.tree
 
+  - name: messages
+    version: 0.0.0
+    repository: "https://awakari.github.io/messages"
+
+  - name: matches
+    version: 0.0.0
+    repository: "https://awakari.github.io/matches"
+
   - name: subscriptions
     version: 0.0.0
     repository: "https://awakari.github.io/subscriptions"
 
-  - name: messages
+  - name: reader
     version: 0.0.0
-    repository: "https://awakari.github.io/messages"
+    repository: "https://awakari.github.io/reader"
 
   - name: writer
     version: 0.0.0
