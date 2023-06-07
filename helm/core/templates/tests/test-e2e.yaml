@@ -16,8 +16,8 @@ spec:
       args:
         - test
       env:
-        - name: URI_MESSAGES
-          value: "{{ .Release.Name }}-messages:{{ .Values.messages.service.port }}"
+        - name: URI_READER
+          value: "{{ .Release.Name }}-reader:{{ .Values.messages.service.port }}"
         - name: URI_SUBSCRIPTIONS
           value: "{{ .Release.Name }}-subscriptions:{{ .Values.subscriptions.service.port }}"
         - name: URI_WRITER
