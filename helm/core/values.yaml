@@ -166,4 +166,5 @@ writer:
     reader:
       uri: "core-reader:50051"
   queue:
+    batchSize: 64
     uri: "core-queue:50051"
