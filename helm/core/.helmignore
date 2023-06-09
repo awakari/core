@@ -22,3 +22,4 @@
 *.tmproj
 .vscode/
 core-0.0.0.tgz
+values-mongodb-ext-dev.yaml
