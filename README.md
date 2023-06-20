@@ -87,7 +87,7 @@ Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 
 > **Note**:
 >
-> Invoking Reader and Writer APIs require the corresponding proto files to be available on the client side.
+> Invoking Reader and Writer APIs without Client SDK requires the corresponding proto files to be available on the client side.
 
 
 # 5. Design
