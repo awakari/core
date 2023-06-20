@@ -19,7 +19,7 @@
 
 This repo contains the Helm chart for the Awakari Core system deployment.
 The chart deploys the following minimum set of components:
-1. Sharded MongoDB
+1. Sharded MongoDB (if external MongoDB option is not used)
 2. NATS in the Jetstream mode (if NATS usage is enabled).
 3. Specific queue wrapper service (e.g. [queue-nats](https://github.com/awakari/queue-nats))
 4. Specific distributed semaphore service (e.g. [semaphore-nats](https://github.com/awakari/semaphore-nats))
@@ -47,6 +47,11 @@ Create the target namespace:
 kubectl create namespace awakari
 ```
 
+> **Note**
+> 
+> To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the
+> reference and substitute these with own values.
+
 Install the package built locally:
 ```shell
 helm install core core-0.0.0.tgz -n awakari
@@ -66,7 +71,13 @@ helm install core awakari-core/core \
 
 # 4. Usage
 
-TODO
+## 4.1. Client SDK
+
+Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
+
+> **Note**:
+> 
+> Usage limits and permits APIs are not available in the Core.
 
 # 5. Design
 
