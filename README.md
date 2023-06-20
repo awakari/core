@@ -76,8 +76,19 @@ helm install core awakari-core/core \
 Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 
 > **Note**:
-> 
-> Usage limits and permits APIs are not available in the Core.
+>
+> Usage Limits and Permits APIs are not available in the Core.
+
+## 4.2. API
+
+* [Subscriptions](https://github.com/awakari/subscriptions#4-usage)
+* [Reader](https://github.com/awakari/reader#4-usage)
+* [Writer](https://github.com/awakari/writer#4-usage)
+
+> **Note**:
+>
+> Invoking Reader and Writer APIs require the corresponding proto files to be available on the client side.
+
 
 # 5. Design
 
