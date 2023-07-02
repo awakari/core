@@ -1,5 +1,5 @@
-github.com/awakari/client-sdk-go v0.0.4 h1:4cabzPs0/8dZOKgMQoz+upFhTjwiz9MIoTahohEEUqg=
-github.com/awakari/client-sdk-go v0.0.4/go.mod h1:QMPZGt4vNYscux4MjeSQUloFY8iYhR81ztG44FuUmzI=
+github.com/awakari/client-sdk-go v1.0.0 h1:0SWNer2Z2qdDpHtugD58mb8KeGnYwQBwOLOdhfLcE1M=
+github.com/awakari/client-sdk-go v1.0.0/go.mod h1:QMPZGt4vNYscux4MjeSQUloFY8iYhR81ztG44FuUmzI=
 github.com/cloudevents/sdk-go/binding/format/protobuf/v2 v2.14.0 h1:dEopBSOSjB5fM9r76ufM44AVj9Dnz2IOM0Xs6FVxZRM=
 github.com/cloudevents/sdk-go/binding/format/protobuf/v2 v2.14.0/go.mod h1:qDSbb0fgIfFNjZrNTPtS5MOMScAGyQtn1KlSvoOdqYw=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

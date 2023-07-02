@@ -23,7 +23,7 @@ The chart deploys the following minimum set of components:
 2. NATS in the Jetstream mode (if NATS usage is enabled).
 3. Specific queue wrapper service (e.g. [queue-nats](https://github.com/awakari/queue-nats))
 4. Specific distributed semaphore service (e.g. [semaphore-nats](https://github.com/awakari/semaphore-nats))
-5. Specific condition services (e.g. [kiwi-tree](https://github.com/awakari/kiwi-tree))
+5. Specific condition services (e.g. [text](https://github.com/awakari/conditions-text))
 6. [Subscriptions](https://github.com/awakari/subscriptions) service
 7. [Matches](https://github.com/awakari/matches) service
 8. [Messages](https://github.com/awakari/messages) service
@@ -36,15 +36,28 @@ For a component-specific options see the corresponding sub-chart configuration. 
 
 | Variable               | Default | Description                                                                                                              |
 |------------------------|---------|--------------------------------------------------------------------------------------------------------------------------|
-| conditions.kiwi.tree   | `true`  | Enables the kiwi-tree conditions usage. May be used together with other conditions implementations.                      | 
+| mongodb.internal       | `true`  | Defines whether to deploy the MongoDB internally or use external one.                                                    | 
 | queue.backend.nats     | `true`  | Enables the NATS JetStream queue wrapper service. Exclusive, can not be used together with other queue backends.         |
 | semaphore.backend.nats | `true`  | Enables the NATS-based distributed semaphore service. Exclusive, can not be used together with other semaphore backends. |
 
 # 3. Deployment
 
+Install and start minikube:
+```shell
+minikube start
+```
+
 Create the target namespace:
 ```shell
 kubectl create namespace awakari
+```
+
+Create the image pull secret:
+```shell
+kubectl create secret generic github-registry \
+    -n awakari
+    --from-file=.dockerconfigjson=<home/.docker/config.json> \
+    --type=kubernetes.io/dockerconfigjson
 ```
 
 > **Note**
@@ -52,7 +65,7 @@ kubectl create namespace awakari
 > To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the
 > reference and substitute these with own values.
 
-Install the package built locally:
+[Build a package locally](#63-building) and install the package built locally:
 ```shell
 helm install core core-0.0.0.tgz -n awakari
 ```
@@ -61,7 +74,7 @@ helm install core core-0.0.0.tgz -n awakari
 > 
 > Do not change the "core" release name
 
-Or use an existing:
+Alternatively, use the existing published helm package:
 ```shell
 helm repo add awakari-core https://awakari.github.io/core
 
@@ -95,7 +108,7 @@ Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 The core of Awakari consist of:
 * Storages
   * [Subscriptions](https://github.com/awakari/subscriptions)
-  * Conditions, e.g. [Kiwi Tree](https://github.com/awakari/kiwi-tree)
+  * Conditions, e.g. [Text](https://github.com/awakari/conditions-text)
   * [Matches](https://github.com/awakari/matches)
   * [Messages](https://github.com/awakari/messages)
 * Stateless components
@@ -123,6 +136,7 @@ TODO
 
 Build a helm package:
 ```shell
+helm dependency update helm/core
 helm package helm/core
 ```
 

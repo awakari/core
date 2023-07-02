@@ -12,12 +12,6 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-conditions:
-  kiwi:
-    tree: true
-    # bird: true
-  # etc
-
 mongodb:
   internal: true
   auth:
@@ -81,30 +75,23 @@ queue:
   nats:
     uri: "nats://core-nats:4222"
 
-conditions-kiwi-tree-complete:
+conditions-text:
   db:
     hostname: "core-mongodb:27017"
-    name: kiwi-tree
+    name: "conditions-text"
     table:
       # Database table name to use.
-      name: "kiwi-tree-complete"
+      name: "conditions-text"
+      lockTtl:
+        create: "1000s"
     username: "root"
     password:
       secret:
         enabled: true
         name: "core-mongodb"
-
-conditions-kiwi-tree-partial:
-  db:
-    hostname: "core-mongodb:27017"
-    table:
-      # Database table name to use.
-      name: "kiwi-tree-partial"
-    username: "root"
-    password:
-      secret:
-        enabled: true
-        name: "core-mongodb"
+  text:
+    splitLimit: 1024
+    mostFreqLimit: 256
 
 matches:
   # Database related configuration.
@@ -129,10 +116,8 @@ messages:
 subscriptions:
   api:
     uri:
-      kiwi:
-        tree:
-          complete: "core-conditions-kiwi-tree-complete:50051"
-          partial: "core-conditions-kiwi-tree-partial:50051"
+      conditions:
+        text: "core-conditions-text:50051"
   db:
     hostname: "core-mongodb:27017"
     username: "root"
@@ -153,10 +138,8 @@ reader:
 writer:
   api:
     conditions:
-      kiwi:
-        tree:
-          completeUri: "core-conditions-kiwi-tree-complete:50051"
-          partialUri: "core-conditions-kiwi-tree-partial:50051"
+      text:
+        uri: "core-conditions-text:50051"
     subscriptions:
       uri: "core-subscriptions:50051"
     matches:

@@ -7,43 +7,34 @@ import (
 
 var Subs = []subscription.Data{
 	{
-		Metadata: subscription.Metadata{
-			Description: "disabled",
-		},
+		Description: "disabled",
 		Condition: condition.
 			NewBuilder().
 			MatchAttrKey("author").
-			MatchAttrValuePattern("Edna").
-			BuildKiwiTreeCondition(),
+			MatchText("Edna").
+			BuildTextCondition(),
 	},
 	{
-		Metadata: subscription.Metadata{
-			Description: "exact complete value match for a key",
-			Enabled:     true,
-		},
+		Description: "exact complete value match for a key",
+		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
 			MatchAttrKey("author").
-			MatchAttrValuePattern("Edna").
-			BuildKiwiTreeCondition(),
+			MatchText("Edna").
+			BuildTextCondition(),
 	},
 	{
-		Metadata: subscription.Metadata{
-			Description: "partial exact match",
-			Enabled:     true,
-		},
+		Description: "partial exact match",
+		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
-			MatchAttrValuePartial().
 			MatchAttrKey("tags").
-			MatchAttrValuePattern("neutrino").
-			BuildKiwiTreeCondition(),
+			MatchText("neutrino").
+			BuildTextCondition(),
 	},
 	{
-		Metadata: subscription.Metadata{
-			Description: "basic group condition with \"and\" logic and partial sub-conditions",
-			Enabled:     true,
-		},
+		Description: "basic group condition with \"and\" logic and partial sub-conditions",
+		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
 			GroupLogic(condition.GroupLogicAnd).
@@ -52,24 +43,20 @@ var Subs = []subscription.Data{
 					condition.
 						NewBuilder().
 						MatchAttrKey("title").
-						MatchAttrValuePattern("Elon").
-						MatchAttrValuePartial().
-						BuildKiwiTreeCondition(),
+						MatchText("Elon").
+						BuildTextCondition(),
 					condition.
 						NewBuilder().
 						MatchAttrKey("title").
-						MatchAttrValuePattern("Musk").
-						MatchAttrValuePartial().
-						BuildKiwiTreeCondition(),
+						MatchText("Musk").
+						BuildTextCondition(),
 				},
 			).
 			BuildGroupCondition(),
 	},
 	{
-		Metadata: subscription.Metadata{
-			Description: "basic group condition with \"or\" logic",
-			Enabled:     true,
-		},
+		Description: "basic group condition with \"or\" logic",
+		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
 			GroupLogic(condition.GroupLogicOr).
@@ -78,22 +65,20 @@ var Subs = []subscription.Data{
 					condition.
 						NewBuilder().
 						MatchAttrKey("language").
-						MatchAttrValuePattern("fi").
-						BuildKiwiTreeCondition(),
+						MatchText("fi").
+						BuildTextCondition(),
 					condition.
 						NewBuilder().
 						MatchAttrKey("language").
-						MatchAttrValuePattern("ru").
-						BuildKiwiTreeCondition(),
+						MatchText("ru").
+						BuildTextCondition(),
 				},
 			).
 			BuildGroupCondition(),
 	},
 	{
-		Metadata: subscription.Metadata{
-			Description: "basic group condition with \"and\" logic and a negative sub-condition",
-			Enabled:     true,
-		},
+		Description: "basic group condition with \"and\" logic and a negative sub-condition",
+		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
 			GroupLogic(condition.GroupLogicAnd).
@@ -103,39 +88,17 @@ var Subs = []subscription.Data{
 						NewBuilder().
 						Negation().
 						MatchAttrKey("type").
-						MatchAttrValuePattern("com.github.awakari.tgbot").
-						BuildKiwiTreeCondition(),
+						MatchText("com.github.awakari.tgbot").
+						MatchExact().
+						BuildTextCondition(),
 					condition.
 						NewBuilder().
 						MatchAttrKey("summary").
-						MatchAttrValuePattern("of").
-						MatchAttrValuePartial().
-						BuildKiwiTreeCondition(),
+						MatchText("of").
+						MatchExact().
+						BuildTextCondition(),
 				},
 			).
 			BuildGroupCondition(),
-	},
-	{
-		Metadata: subscription.Metadata{
-			Description: "single symbol wildcard",
-			Enabled:     true,
-		},
-		Condition: condition.
-			NewBuilder().
-			MatchAttrValuePartial().
-			MatchAttrKey("title").
-			MatchAttrValuePattern("?eutrino").
-			BuildKiwiTreeCondition(),
-	},
-	{
-		Metadata: subscription.Metadata{
-			Description: "multiple symbol wildcard",
-			Enabled:     true,
-		},
-		Condition: condition.
-			NewBuilder().
-			MatchAttrKey("time").
-			MatchAttrValuePattern("2023-05-12T16*").
-			BuildKiwiTreeCondition(),
 	},
 }

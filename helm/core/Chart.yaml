@@ -49,17 +49,9 @@ dependencies:
     condition: queue.backend.nats
     alias: queue
 
-  - name: kiwi-tree
+  - name: conditions-text
     version: 0.0.0
-    repository: "https://awakari.github.io/kiwi-tree"
-    alias: conditions-kiwi-tree-complete
-    condition: conditions.kiwi.tree
-
-  - name: kiwi-tree
-    version: 0.0.0
-    repository: "https://awakari.github.io/kiwi-tree"
-    alias: conditions-kiwi-tree-partial
-    condition: conditions.kiwi.tree
+    repository: "https://awakari.github.io/conditions-text"
 
   - name: messages
     version: 0.0.0
