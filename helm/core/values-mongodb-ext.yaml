@@ -1,23 +1,14 @@
 mongodb:
   internal: false
 
-conditions-kiwi-tree-complete:
+conditions-text:
   db:
     protocol: "mongodb+srv"
 #    hostname: "db.cluster.mongodb.net"
 #    username: "user-placeholder"
-#    password:
-#      raw: "password-placeholder"
-    tls:
-      enabled: true
-      insecure: true
-
-conditions-kiwi-tree-partial:
-  db:
-    protocol: "mongodb+srv"
-#    hostname: "db.cluster.mongodb.net"
-#    username: "user-placeholder"
-#    password:
+    password:
+      secret:
+        enabled: false
 #      raw: "password-placeholder"
     tls:
       enabled: true
@@ -28,7 +19,9 @@ matches:
     protocol: "mongodb+srv"
 #    hostname: "db.cluster.mongodb.net"
 #    username: "user-placeholder"
-#    password:
+    password:
+      secret:
+        enabled: false
 #      raw: "password-placeholder"
     tls:
       enabled: true
@@ -39,7 +32,9 @@ messages:
     protocol: "mongodb+srv"
 #    hostname: "db.cluster.mongodb.net"
 #    username: "user-placeholder"
-#    password:
+    password:
+      secret:
+        enabled: false
 #      raw: "password-placeholder"
     tls:
       enabled: true
@@ -50,7 +45,9 @@ subscriptions:
     protocol: "mongodb+srv"
 #    hostname: "db.cluster.mongodb.net"
 #    username: "user-placeholder"
-#    password:
+    password:
+      secret:
+        enabled: false
 #      raw: "password-placeholder"
     tls:
       enabled: true

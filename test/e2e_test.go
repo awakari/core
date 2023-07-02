@@ -90,19 +90,6 @@ func Test_MessageDelivery(t *testing.T) {
 				data.Msgs[1],
 			},
 		},
-		"single symbol wildcard": {
-			subId: subIds[6],
-			msgs: []*pb.CloudEvent{
-				data.Msgs[0],
-			},
-		},
-		"multiple symbol wildcard": {
-			subId: subIds[7],
-			msgs: []*pb.CloudEvent{
-				data.Msgs[1],
-				data.Msgs[3],
-			},
-		},
 	}
 	//
 	for k, c := range cases {
@@ -131,7 +118,7 @@ func Test_MessageDelivery(t *testing.T) {
 					break
 				}
 			}
-			assert.Equal(t, len(c.msgs), len(msgs))
+			assert.Equal(t, len(c.msgs), len(msgs), c.subId)
 			var msgFound bool
 			for _, msgWant := range c.msgs {
 				for _, msgGot := range msgs {
