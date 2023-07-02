@@ -3,7 +3,7 @@ entries:
   core:
   - apiVersion: v2
     appVersion: latest
-    created: "2023-06-09T11:30:50.180848242Z"
+    created: "2023-07-02T06:46:44.248637927Z"
     dependencies:
     - alias: mongodb
       condition: mongodb.internal
@@ -25,15 +25,8 @@ entries:
       name: queue-nats
       repository: https://awakari.github.io/queue-nats
       version: 0.0.0
-    - alias: conditions-kiwi-tree-complete
-      condition: conditions.kiwi.tree
-      name: kiwi-tree
-      repository: https://awakari.github.io/kiwi-tree
-      version: 0.0.0
-    - alias: conditions-kiwi-tree-partial
-      condition: conditions.kiwi.tree
-      name: kiwi-tree
-      repository: https://awakari.github.io/kiwi-tree
+    - name: conditions-text
+      repository: https://awakari.github.io/conditions-text
       version: 0.0.0
     - name: messages
       repository: https://awakari.github.io/messages
@@ -51,10 +44,10 @@ entries:
       repository: https://awakari.github.io/writer
       version: 0.0.0
     description: Helm chart for the Awakari Core system deployment
-    digest: 542676c26646f00ec60ba5c1fd71a1dfd6a6d3647fca534e803c05338552da9a
+    digest: 17e7157151c6fca3d43a293c75e1552664be253d5bf3cf145ddeab6e0bc76cdd
     name: core
     type: application
     urls:
     - core-0.0.0.tgz
     version: 0.0.0
-generated: "2023-06-09T11:30:50.163371851Z"
+generated: "2023-07-02T06:46:44.234287274Z"
