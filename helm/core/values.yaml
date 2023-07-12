@@ -18,13 +18,13 @@ mongodb:
     enabled: true
   metrics:
     enabled: true
-  shards: 2
+  shards: 1
   configsvr:
     replicaCount: 1
     mongodbExtraFlags:
       - "--tlsMode disabled"
     persistence:
-      size: 1Gi
+      size: 10Gi
     resources:
       requests:
         cpu: 100m
@@ -39,9 +39,9 @@ mongodb:
         memory: 128Mi
   shardsvr:
     dataNode:
-      replicaCount: 2
+      replicaCount: 1
     persistence:
-      size: 1Gi
+      size: 10Gi
     resources:
       requests:
         cpu: 100m
@@ -57,7 +57,7 @@ nats:
   persistence:
     enabled: true
   resourceType: "statefulset"
-  replicaCount: 3
+  replicaCount: 2
   resources:
     requests:
       cpu: 10m
@@ -150,4 +150,5 @@ writer:
       uri: "core-reader:50051"
   queue:
     batchSize: 64
+    limit: 4096
     uri: "core-queue:50051"

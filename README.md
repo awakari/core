@@ -55,7 +55,7 @@ kubectl create namespace awakari
 Create the image pull secret:
 ```shell
 kubectl create secret generic github-registry \
-    -n awakari
+    -n awakari \
     --from-file=.dockerconfigjson=<home/.docker/config.json> \
     --type=kubernetes.io/dockerconfigjson
 ```
@@ -136,6 +136,10 @@ TODO
 
 Build a helm package:
 ```shell
+for i in core conditions-text matches messages queue-nats reader subscriptions semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
+cd core/helm/core/charts
+for i in conditions-text matches messages queue-nats reader subscriptions semaphore-nats writer; do helm package ../../../../$i/helm/$i; done
+cd ../../..
 helm dependency update helm/core
 helm package helm/core
 ```
@@ -163,7 +167,7 @@ helm test core -n awakari --filter name=core-test
 
 ### 6.4.2. Performance
 
-TODO
+![perf-e2e-test-report-2023-07-11](doc/perf-e2e-test-report-2023-07-11.png)
 
 ## 6.5. Releasing
 

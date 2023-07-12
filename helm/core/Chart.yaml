@@ -39,36 +39,36 @@ dependencies:
 
   - name: semaphore-nats
     version: 0.0.0
-    repository: "https://awakari.github.io/semaphore-nats"
+    repository: "file://../../helm/core/charts"
     condition: semaphore.backend.nats
     alias: semaphore
 
   - name: queue-nats
     version: 0.0.0
-    repository: "https://awakari.github.io/queue-nats"
+    repository: "file://../../helm/core/charts"
     condition: queue.backend.nats
     alias: queue
 
   - name: conditions-text
     version: 0.0.0
-    repository: "https://awakari.github.io/conditions-text"
+    repository: "file://../../helm/core/charts"
 
   - name: messages
     version: 0.0.0
-    repository: "https://awakari.github.io/messages"
+    repository: "file://../../helm/core/charts"
 
   - name: matches
     version: 0.0.0
-    repository: "https://awakari.github.io/matches"
+    repository: "file://../../helm/core/charts"
 
   - name: subscriptions
     version: 0.0.0
-    repository: "https://awakari.github.io/subscriptions"
+    repository: "file://../../helm/core/charts"
 
   - name: reader
     version: 0.0.0
-    repository: "https://awakari.github.io/reader"
+    repository: "file://../../helm/core/charts"
 
   - name: writer
     version: 0.0.0
-    repository: "https://awakari.github.io/writer"
+    repository: "file://../../helm/core/charts"
