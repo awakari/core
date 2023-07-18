@@ -3,7 +3,7 @@ module github.com/awakari/core
 go 1.20
 
 require (
-	github.com/awakari/client-sdk-go v1.0.0
+	github.com/awakari/client-sdk-go v1.0.1
 	github.com/cloudevents/sdk-go/binding/format/protobuf/v2 v2.14.0
 	github.com/google/uuid v1.3.0
 	github.com/kelseyhightower/envconfig v1.4.0
