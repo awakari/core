@@ -61,7 +61,8 @@ dependencies:
     version: 0.0.0
     repository: "file://../../helm/core/charts"
 
-  - name: subscriptions
+  - name: subscriptions-proxy
+    alias: subscriptions
     version: 0.0.0
     repository: "file://../../helm/core/charts"
 

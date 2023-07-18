@@ -24,11 +24,12 @@ The chart deploys the following minimum set of components:
 3. Specific queue wrapper service (e.g. [queue-nats](https://github.com/awakari/queue-nats))
 4. Specific distributed semaphore service (e.g. [semaphore-nats](https://github.com/awakari/semaphore-nats))
 5. Specific condition services (e.g. [text](https://github.com/awakari/conditions-text))
-6. [Subscriptions](https://github.com/awakari/subscriptions) service
-7. [Matches](https://github.com/awakari/matches) service
-8. [Messages](https://github.com/awakari/messages) service
-9. [Reader](https://github.com/awakari/reader) service
-10. [Writer](https://github.com/awakari/writer) service
+6. [Subscriptions](https://github.com/awakari/subscriptions) storage service
+7. [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy) service
+8. [Matches](https://github.com/awakari/matches) service
+9. [Messages](https://github.com/awakari/messages) service
+10. [Reader](https://github.com/awakari/reader) service
+11. [Writer](https://github.com/awakari/writer) service
 
 # 2. Configuration
 
@@ -94,7 +95,7 @@ Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 
 ## 4.2. API
 
-* [Subscriptions](https://github.com/awakari/subscriptions#4-usage)
+* [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy#4-usage)
 * [Reader](https://github.com/awakari/reader#4-usage)
 * [Writer](https://github.com/awakari/writer#4-usage)
 
@@ -107,11 +108,11 @@ Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 
 The core of Awakari consist of:
 * Storages
-  * [Subscriptions](https://github.com/awakari/subscriptions)
   * Conditions, e.g. [Text](https://github.com/awakari/conditions-text)
   * [Matches](https://github.com/awakari/matches)
   * [Messages](https://github.com/awakari/messages)
 * Stateless components
+  * [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy) 
   * [Writer](https://github.com/awakari/writer)
   * [Reader](https://github.com/awakari/reader)
 
@@ -136,9 +137,9 @@ TODO
 
 Build a helm package:
 ```shell
-for i in core conditions-text matches messages queue-nats reader subscriptions semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
+for i in core conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
 cd core/helm/core/charts
-for i in conditions-text matches messages queue-nats reader subscriptions semaphore-nats writer; do helm package ../../../../$i/helm/$i; done
+for i in conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do helm package ../../../../$i/helm/$i; done
 cd ../../..
 helm dependency update helm/core
 helm package helm/core

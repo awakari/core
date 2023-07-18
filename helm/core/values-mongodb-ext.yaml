@@ -39,16 +39,3 @@ messages:
     tls:
       enabled: true
       insecure: true
-
-subscriptions:
-  db:
-    protocol: "mongodb+srv"
-#    hostname: "db.cluster.mongodb.net"
-#    username: "user-placeholder"
-    password:
-      secret:
-        enabled: false
-#      raw: "password-placeholder"
-    tls:
-      enabled: true
-      insecure: true

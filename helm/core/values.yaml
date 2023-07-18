@@ -115,16 +115,11 @@ messages:
 
 subscriptions:
   api:
-    uri:
-      conditions:
-        text: "core-conditions-text:50051"
-  db:
-    hostname: "core-mongodb:27017"
-    username: "root"
-    password:
-      secret:
-        enabled: true
-        name: "core-mongodb"
+    conditions:
+      text:
+        uri: "core-conditions-text:50051"
+    subscriptions:
+      uri: "subscriptions:50051"
 
 reader:
   api:
