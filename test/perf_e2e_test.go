@@ -262,6 +262,7 @@ func Test_Perf_EndToEnd(t *testing.T) {
 				require.Nil(t, err)
 				subIds = append(subIds, subId)
 			}
+			//time.Sleep(100 * time.Second) // wait for the cache expiration
 			defer func() {
 				for _, subId := range subIds {
 					err = client.DeleteSubscription(groupIdCtx, userId, subId)

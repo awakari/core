@@ -63,6 +63,18 @@ nats:
       cpu: 10m
       memory: 32Mi
 
+redis:
+  cluster:
+    nodes: 3
+    replicas: 0
+  usePassword: false
+  persistence:
+    enabled: false
+  redis:
+    configmap: |
+      maxmemory 1gb
+      maxmemory-policy allkeys-lru
+
 semaphore:
   backend:
     nats: true
@@ -113,13 +125,17 @@ messages:
         enabled: true
         name: "core-mongodb"
 
-subscriptions:
+subscriptions: # proxy
   api:
     conditions:
       text:
         uri: "core-conditions-text:50051"
-    subscriptions:
+    subscriptions: # storage
       uri: "subscriptions:50051"
+  cache:
+    redis:
+      # change the addrs in accordance when you change the redis node count
+      addrs: "core-redis:6379"
 
 reader:
   api:
