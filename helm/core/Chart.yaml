@@ -55,6 +55,7 @@ dependencies:
     alias: queue
 
   - name: conditions-text
+    alias: conditionstext
     version: 0.0.0
     repository: "file://../../helm/core/charts"
 
@@ -67,7 +68,7 @@ dependencies:
     repository: "file://../../helm/core/charts"
 
   - name: subscriptions-proxy
-    alias: subscriptions
+    alias: subscriptionsproxy
     version: 0.0.0
     repository: "file://../../helm/core/charts"
 

@@ -18,7 +18,7 @@ mongodb:
     enabled: true
   metrics:
     enabled: true
-  shards: 1
+  shards: 2
   configsvr:
     replicaCount: 1
     mongodbExtraFlags:
@@ -87,7 +87,7 @@ queue:
   nats:
     uri: "nats://core-nats:4222"
 
-conditions-text:
+conditionstext:
   db:
     hostname: "core-mongodb:27017"
     name: "conditions-text"
@@ -125,13 +125,15 @@ messages:
         enabled: true
         name: "core-mongodb"
 
-subscriptions: # proxy
+subscriptionsproxy:
   api:
     conditions:
       text:
-        uri: "core-conditions-text:50051"
+        uri: "core-conditionstext:50051"
     subscriptions: # storage
-      uri: "subscriptions:50051"
+      uri: "subscriptions:50051" # use internal subscriptions storage
+      tls:
+        enabled: false # don't use mTLS for the internal subscriptions storage
   cache:
     redis:
       # change the addrs in accordance when you change the redis node count
@@ -150,9 +152,9 @@ writer:
   api:
     conditions:
       text:
-        uri: "core-conditions-text:50051"
+        uri: "core-conditionstext:50051"
     subscriptions:
-      uri: "core-subscriptions:50051"
+      uri: "core-subscriptionsproxy:50051"
     matches:
       uri: "core-matches:50051"
     messages:

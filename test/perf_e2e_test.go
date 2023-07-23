@@ -37,7 +37,7 @@ func Test_Perf_EndToEnd(t *testing.T) {
 	require.Nil(t, err)
 	defer client.Close()
 	//
-	groupIdCtx := metadata.AppendToOutgoingContext(context.TODO(), "x-awakari-group-id", groupId)
+	ctxGroupId := metadata.AppendToOutgoingContext(context.TODO(), "x-awakari-group-id", groupId)
 	//
 	cases := map[string]struct {
 		subCount  int
@@ -258,26 +258,25 @@ func Test_Perf_EndToEnd(t *testing.T) {
 					Enabled:     true,
 				}
 				var subId string
-				subId, err = client.CreateSubscription(groupIdCtx, userId, subData)
+				subId, err = client.CreateSubscription(ctxGroupId, userId, subData)
 				require.Nil(t, err)
 				subIds = append(subIds, subId)
 			}
-			//time.Sleep(100 * time.Second) // wait for the cache expiration
 			defer func() {
 				for _, subId := range subIds {
-					err = client.DeleteSubscription(groupIdCtx, userId, subId)
+					err = client.DeleteSubscription(ctxGroupId, userId, subId)
 					require.Nil(t, err)
 				}
 			}()
 
 			//
-			groupIdAndTimeoutCtx, cancel := context.WithTimeout(groupIdCtx, c.duration)
+			groupIdAndTimeoutCtx, cancel := context.WithTimeout(ctxGroupId, c.duration)
 			defer cancel()
 			writeTsByEvtId := make(map[string]int64)
 
 			t.Log("Write start...")
 			var writer model.Writer[*pb.CloudEvent]
-			writer, err = client.OpenMessagesWriter(groupIdCtx, userId)
+			writer, err = client.OpenMessagesWriter(ctxGroupId, userId)
 			require.Nil(t, err)
 			defer writer.Close()
 			var wg sync.WaitGroup
