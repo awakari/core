@@ -22,6 +22,7 @@ jobs:
         with:
           path: "conditions-text"
           repository: awakari/conditions-text
+          token: {{ secrets.CLONE_PAT }}
 
       - name: Set up Helm
         uses: azure/setup-helm@v1
