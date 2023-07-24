@@ -85,17 +85,21 @@ jobs:
         with:
           version: v3.12.0
 
-      - name: Lint Helm Chart
+      - name: Helm package dependencies
         run: |
-          
-          ls -l 
           cd core 
-          
           mkdir helm/core/charts
           cd helm/core/charts
           for i in conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do helm package ../../../../$i/helm/$i; done
           cd ../../..
-          
+
+      - name: Helm dependency update
+        continue-on-error: true
+        run: |
+          cd core
           helm dependency update helm/core
-          echo "!!!"
+
+      - name: Helm lint
+        run: |
+          cd core
           helm lint helm/core
