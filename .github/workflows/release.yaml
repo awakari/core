@@ -52,9 +52,9 @@ jobs:
           helm package helm/core/ --version ${VERSION} --destination helm/package
           cd helm/package
           helm repo index .
-#
-#      - name: Publish Helm Chart
-#        uses: peaceiris/actions-gh-pages@v3
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          publish_dir: helm/package
+
+      - name: Publish Helm Chart
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: helm/package
