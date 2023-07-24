@@ -24,6 +24,62 @@ jobs:
           repository: awakari/conditions-text
           token: ${{ secrets.CLONE_PAT }}
 
+      - name: clone matches
+        uses: actions/checkout@v3
+        with:
+          path: "matches"
+          repository: awakari/matches
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone messages
+        uses: actions/checkout@v3
+        with:
+          path: "messages"
+          repository: awakari/messages
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone queue-nats
+        uses: actions/checkout@v3
+        with:
+          path: "queue-nats"
+          repository: awakari/queue-nats
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone queue-nats
+        uses: actions/checkout@v3
+        with:
+          path: "queue-nats"
+          repository: awakari/queue-nats
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone reader
+        uses: actions/checkout@v3
+        with:
+          path: "reader"
+          repository: awakari/reader
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone subscriptions-proxy
+        uses: actions/checkout@v3
+        with:
+          path: "subscriptions-proxy"
+          repository: awakari/subscriptions-proxy
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone semaphore-nats
+        uses: actions/checkout@v3
+        with:
+          path: "semaphore-nats"
+          repository: awakari/semaphore-nats
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone writer
+        uses: actions/checkout@v3
+        with:
+          path: "writer"
+          repository: awakari/writer
+          token: ${{ secrets.CLONE_PAT }}
+
       - name: Set up Helm
         uses: azure/setup-helm@v1
         with:
@@ -31,6 +87,9 @@ jobs:
 
       - name: Lint Helm Chart
         run: |
+          
+          ls -l 
+          cd core 
           
           mkdir helm/core/charts
           cd helm/core/charts
