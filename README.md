@@ -33,12 +33,9 @@ For a component-specific options see the corresponding sub-chart configuration. 
 
 # 3. Deployment
 
-## 3.1. General Steps
+Kubernetes cluster is required for the work.
 
-Install and start minikube:
-```shell
-minikube start
-```
+## 3.1. General Steps
 
 Create the target namespace:
 ```shell
@@ -130,14 +127,127 @@ Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 
 ## 4.2. API
 
-* [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy#4-usage)
-* [Reader](https://github.com/awakari/reader#4-usage)
-* [Writer](https://github.com/awakari/writer#4-usage)
+### 4.2.1. Preparation
 
-> **Note**:
->
-> Invoking Reader and Writer APIs without Client SDK requires the corresponding proto files to be available on the client side.
+1. Install [grpcurl](https://github.com/fullstorydev/grpcurl)
+2. Download the necessary proto files and save to the current directory:
+   1. [Cloud Events](https://awakari.com/proto/cloudevent.proto)
+   2. [Reader](https://awakari.com/proto/reader.proto)
+   3. [Writer](https://awakari.com/proto/writer.proto)
+3. Port-forward services to local:
+   1. `core-reader` -> 50051
+   2. `core-subscriptionsproxy` -> 50052
+   3. `core-writer` -> 50053
 
+### 4.2.2. Subscriptions
+
+Create:
+```shell
+grpcurl \
+  -plaintext \
+  -H 'X-Awakari-User-Id: john.doe@company1.com' \
+  -d @ \
+  localhost:50052 \
+  awakari.subscriptions.Service/Create
+```
+
+Example payload:
+```json
+{
+   "description": "Tesla model S updates",
+   "enabled": true,
+   "cond": {
+      "not": false,
+      "tc": {
+        "key": "",
+        "term": "Tesla Model S",
+        "exact": false
+      }
+    }
+}
+```
+
+A successful response contains the created subscription id:
+```json
+{
+  "id": "547857e3-adfc-48a5-a49e-110cfdedbaab"
+}
+```
+
+Note the created subscription id and use it further to read the messages.
+Learn more about the [Subscriptions API](https://github.com/awakari/client-sdk-go/blob/master/api/grpc/subscriptions/service.proto).
+
+### 4.2.3. Read Events
+
+```shell
+grpcurl \
+  -plaintext \
+  -proto reader.proto \
+  -max-time 86400 \
+  -H 'X-Awakari-User-Id: john.doe@company1.com' \
+  -d @ \
+  localhost:50051 \
+  awakari.reader.Service/Read
+```
+
+Specify the subscription id in the payload:
+```json
+{"start": {"batchSize": 1, "subId": "547857e3-adfc-48a5-a49e-110cfdedbaab"}}
+```
+
+This starts a reader stream. A new event appear in the response once system receives anything matching the subscription. 
+Leave this shell/window open and switch to another. Later switch back and check for new events received.
+
+It's necessary to acknowledge every received message:
+```json
+{"ack": { "count": 1}}
+```
+
+### 4.2.4. Write Events
+
+```shell
+grpcurl \
+  -plaintext \
+  -proto writer.proto \
+  -H 'X-Awakari-User-Id: john.doe@company1.com' \
+  -d @ \
+  localhost:50053 \
+  awakari.writer.Service/SubmitMessages
+```
+
+Specify the events to write in the payload:
+```json
+{
+   "msgs": [
+      {
+         "id": "3426d090-1b8a-4a09-ac9c-41f2de24d5ac",
+         "type": "example.type",
+         "source": "example/uri",
+         "spec_version": "1.0",
+         "attributes": {
+            "subject": {
+               "ce_string": "Tesla price updates"
+            },
+            "time": {
+               "ce_timestamp": "2023-07-03T23:20:50.52Z"
+            }
+         },
+         "text_data": "Tesla model S is now available at lower price"
+      }
+   ]
+}
+```
+
+A successful response looks like:
+```json
+{
+  "ackCount": 1
+}
+```
+
+After this it's possible to submit more messages.
+
+When finished, close the writer stream by pressing ^C or leave it open to publish any other messages later.
 
 # 5. Design
 
