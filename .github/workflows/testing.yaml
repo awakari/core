@@ -22,6 +22,8 @@ jobs:
       - name: Lint Helm Chart
         run: |
           
+          git config --global --unset-all user.name
+          git config --global --unset-all user.email
           git config --global user.name "awakari"
           git config --global user.email "awakari@awakari.com"
           git config --global credential.helper store  # This caches credentials on the runner
