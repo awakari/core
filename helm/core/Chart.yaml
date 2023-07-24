@@ -44,38 +44,38 @@ dependencies:
 
   - name: semaphore-nats
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../semaphore-nats/helm/semaphore-nats"
     condition: semaphore.backend.nats
     alias: semaphore
 
   - name: queue-nats
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../queue-nats/helm/queue-nats"
     condition: queue.backend.nats
     alias: queue
 
   - name: conditions-text
     alias: conditionstext
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../conditions-text/helm/conditions-text"
 
   - name: messages
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../messages/helm/messages"
 
   - name: matches
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../matches/helm/matches"
 
   - name: subscriptions-proxy
     alias: subscriptionsproxy
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../subscriptions-proxy/helm/subscriptions-proxy"
 
   - name: reader
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../reader/helm/reader"
 
   - name: writer
     version: 0.0.0
-    repository: "file://../../helm/core/charts"
+    repository: "file://../../../writer/helm/writer"

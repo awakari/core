@@ -12,14 +12,79 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v2
+      - name: clone core
+        uses: actions/checkout@v3
+        with:
+          path: "core"
+
+      - name: clone conditions-text
+        uses: actions/checkout@v3
+        with:
+          path: "conditions-text"
+          repository: awakari/conditions-text
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone matches
+        uses: actions/checkout@v3
+        with:
+          path: "matches"
+          repository: awakari/matches
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone messages
+        uses: actions/checkout@v3
+        with:
+          path: "messages"
+          repository: awakari/messages
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone queue-nats
+        uses: actions/checkout@v3
+        with:
+          path: "queue-nats"
+          repository: awakari/queue-nats
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone reader
+        uses: actions/checkout@v3
+        with:
+          path: "reader"
+          repository: awakari/reader
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone subscriptions-proxy
+        uses: actions/checkout@v3
+        with:
+          path: "subscriptions-proxy"
+          repository: awakari/subscriptions-proxy
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone semaphore-nats
+        uses: actions/checkout@v3
+        with:
+          path: "semaphore-nats"
+          repository: awakari/semaphore-nats
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone writer
+        uses: actions/checkout@v3
+        with:
+          path: "writer"
+          repository: awakari/writer
+          token: ${{ secrets.CLONE_PAT }}
 
       - name: Set up Helm
         uses: azure/setup-helm@v1
         with:
-          version: v3.7.0
+          version: v3.12.0
 
-      - name: Lint Helm Chart
+      - name: Helm dependency update
+        continue-on-error: true
         run: |
+          cd core
           helm dependency update helm/core
+
+      - name: Helm lint
+        run: |
+          cd core
           helm lint helm/core

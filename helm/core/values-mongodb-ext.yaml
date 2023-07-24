@@ -1,8 +1,10 @@
 mongodb:
   internal: false
 
-conditions-text:
+conditionstext:
   db:
+    table:
+      shard: false
     protocol: "mongodb+srv"
 #    hostname: "db.cluster.mongodb.net"
 #    username: "user-placeholder"
@@ -16,6 +18,8 @@ conditions-text:
 
 matches:
   db:
+    table:
+      shard: false
     protocol: "mongodb+srv"
 #    hostname: "db.cluster.mongodb.net"
 #    username: "user-placeholder"
@@ -29,6 +33,8 @@ matches:
 
 messages:
   db:
+    table:
+      shard: false
     protocol: "mongodb+srv"
 #    hostname: "db.cluster.mongodb.net"
 #    username: "user-placeholder"
