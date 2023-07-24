@@ -172,10 +172,7 @@ Build a helm package:
 ```shell
 for i in core conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
 cd core
-mkdir helm/core/charts
-cd helm/core/charts; \
-  for i in conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do helm package ../../../../$i/helm/$i; done && \
-  cd ../../.. && helm dependency update helm/core
+helm dependency update helm/core
 helm package helm/core
 ```
 
