@@ -45,13 +45,6 @@ jobs:
           repository: awakari/queue-nats
           token: ${{ secrets.CLONE_PAT }}
 
-      - name: clone queue-nats
-        uses: actions/checkout@v3
-        with:
-          path: "queue-nats"
-          repository: awakari/queue-nats
-          token: ${{ secrets.CLONE_PAT }}
-
       - name: clone reader
         uses: actions/checkout@v3
         with:
@@ -98,6 +91,7 @@ jobs:
         run: |
           cd core
           helm dependency update helm/core
+          ls -l helm/core/charts
 
       - name: Helm lint
         run: |
