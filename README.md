@@ -84,15 +84,17 @@ helm install core core-0.0.0.tgz -n awakari --values values-mongodb-ext.yaml
 >
 > Cloud subscriptions doesn't have any access to events data.
 
-Using cloud subscriptions requires mutual TLS authentication and encryption to secure the client subscriptions data. 
+Using cloud subscriptions requires mutual TLS authentication and encryption to secure the client subscriptions data.
 
-Prepare own client certificate request:
+For the demo purposes, there are the cloud instance `demo.subscriptions.awakari.cloud` is available.
+Demo client certificates are in the [certs/demo](certs/demo) directory.
 
+For production usage, prepare own client certificate request:
 ```shell
 openssl req -new -newkey rsa:4096 -nodes \
   -keyout client.key \
   -out client.csr \
-  -addext "subjectAltName=DNS:demo.subscriptions.awakari.cloud" \
+  -addext "subjectAltName=DNS:subscriptions.awakari.cloud" \
   -subj '/CN=group0.company1.com'
 ```
 
@@ -102,15 +104,14 @@ openssl req -new -newkey rsa:4096 -nodes \
 > The resulting DN should not contain commas.
 
 Then request the client certificate. 
-After the client certificate (`client.crt`) is received, create a pair of cluster secrets:
 
+After the client certificate (`client.crt`) is received, create a pair of cluster secrets:
 ```shell
 kubectl create secret generic -n awakari secret-subscriptions-tls-client-key --from-file=client.key
 kubectl create secret generic -n awakari secret-subscriptions-tls-client-crt --from-file=client.crt
 ```
 
 Refer to the values file [values-subscriptions-cloud-demo.yaml](helm/core/values-subscriptions-cloud-demo.yaml).
-
 ```shell
 helm install core core-0.0.0.tgz -n awakari --values values-subscriptions-cloud-demo.yaml
 ```
