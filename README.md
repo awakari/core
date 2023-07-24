@@ -60,6 +60,7 @@ kubectl create secret generic github-registry \
 
 Install the package:
 ```shell
+helm repo add awakari-core https://awakari.github.io/core
 helm install core core-0.0.0.tgz -n awakari
 ```
 
@@ -68,6 +69,10 @@ helm install core core-0.0.0.tgz -n awakari
 > Do not change the "core" release name
 
 ## 3.2. Cloud MongoDB
+
+> **Note**:
+>
+> This step is optional, by default the core system comes with internal MongoDB sharded cluster.
 
 To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the 
 reference and substitute these with own values.
