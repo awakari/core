@@ -17,19 +17,9 @@
 
 # 1. Overview
 
-This repo contains the Helm chart for the Awakari Core system deployment.
-The chart deploys the following minimum set of components:
-1. Sharded MongoDB (if external MongoDB option is not used)
-2. NATS in the Jetstream mode (if NATS usage is enabled).
-3. Specific queue wrapper service (e.g. [queue-nats](https://github.com/awakari/queue-nats))
-4. Specific distributed semaphore service (e.g. [semaphore-nats](https://github.com/awakari/semaphore-nats))
-5. Specific condition services (e.g. [text](https://github.com/awakari/conditions-text))
-6. [Subscriptions](https://github.com/awakari/subscriptions) storage service
-7. [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy) service
-8. [Matches](https://github.com/awakari/matches) service
-9. [Messages](https://github.com/awakari/messages) service
-10. [Reader](https://github.com/awakari/reader) service
-11. [Writer](https://github.com/awakari/writer) service
+This repo contains the Helm chart for the Awakari core system deployment.
+The core doesn't include subscriptions storage. 
+To run the core system on own premises, request access to the cloud instance of subscriptions storage.
 
 # 2. Configuration
 
@@ -43,6 +33,8 @@ For a component-specific options see the corresponding sub-chart configuration. 
 
 # 3. Deployment
 
+## 3.1. General Steps
+
 Install and start minikube:
 ```shell
 minikube start
@@ -53,6 +45,11 @@ Create the target namespace:
 kubectl create namespace awakari
 ```
 
+Use the public GitHub registry access token to pull (only) Awakari images:
+```shell
+docker login ghcr.io -u akurilov -p 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
+```
+
 Create the image pull secret:
 ```shell
 kubectl create secret generic github-registry \
@@ -61,12 +58,7 @@ kubectl create secret generic github-registry \
     --type=kubernetes.io/dockerconfigjson
 ```
 
-> **Note**
-> 
-> To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the
-> reference and substitute these with own values.
-
-[Build a package locally](#63-building) and install the package built locally:
+Install the package:
 ```shell
 helm install core core-0.0.0.tgz -n awakari
 ```
@@ -75,12 +67,50 @@ helm install core core-0.0.0.tgz -n awakari
 > 
 > Do not change the "core" release name
 
-Alternatively, use the existing published helm package:
-```shell
-helm repo add awakari-core https://awakari.github.io/core
+## 3.2. Cloud MongoDB
 
-helm install core awakari-core/core \
-  -n awakari
+To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the 
+reference and substitute these with own values.
+
+```shell
+helm install core core-0.0.0.tgz -n awakari --values values-mongodb-ext.yaml
+```
+
+## 3.3. Cloud Subscriptions
+
+> **Note**:
+>
+> Cloud subscriptions doesn't have any access to events data.
+
+Using cloud subscriptions requires mutual TLS authentication and encryption to secure the client subscriptions data. 
+
+Prepare own client certificate request:
+
+```shell
+openssl req -new -newkey rsa:4096 -nodes \
+  -keyout client.key \
+  -out client.csr \
+  -addext "subjectAltName=DNS:demo.subscriptions.awakari.cloud" \
+  -subj '/CN=group0.company1.com'
+```
+
+> **Warning**
+>
+> Never specify additional certificate attributes like "O", "OU", etc.
+> The resulting DN should not contain commas.
+
+Then request the client certificate. 
+After the client certificate (`client.crt`) is received, create a pair of cluster secrets:
+
+```shell
+kubectl create secret generic -n awakari secret-subscriptions-tls-client-key --from-file=client.key
+kubectl create secret generic -n awakari secret-subscriptions-tls-client-crt --from-file=client.crt
+```
+
+Refer to the values file [values-subscriptions-cloud-demo.yaml](helm/core/values-subscriptions-cloud-demo.yaml).
+
+```shell
+helm install core core-0.0.0.tgz -n awakari --values values-subscriptions-cloud-demo.yaml
 ```
 
 # 4. Usage
@@ -107,7 +137,7 @@ Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 # 5. Design
 
 The core of Awakari consist of:
-* Storages
+* Stateful components
   * Conditions, e.g. [Text](https://github.com/awakari/conditions-text)
   * [Matches](https://github.com/awakari/matches)
   * [Messages](https://github.com/awakari/messages)
@@ -115,7 +145,10 @@ The core of Awakari consist of:
   * [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy) 
   * [Writer](https://github.com/awakari/writer)
   * [Reader](https://github.com/awakari/reader)
-
+* 3-rd part components
+  * Mongodb (sharded)
+  * Redis in-memory cache
+  * NATS message bus
 
 ![components](doc/components-core.png)
 
