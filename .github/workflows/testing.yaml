@@ -14,14 +14,6 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "awakari"
-          git config --global user.email "awakari@awakari.com"
-          git config --global credential.helper store  # This caches credentials on the runner
-          echo "${{ secrets.CLONE_PATH }}" > ~/.git-credentials
-          git config --global credential.helper 'store --file ~/.git-credentials'
-
       - name: Set up Helm
         uses: azure/setup-helm@v1
         with:
@@ -29,12 +21,21 @@ jobs:
 
       - name: Lint Helm Chart
         run: |
+          
+          git config --global user.name "awakari"
+          git config --global user.email "awakari@awakari.com"
+          git config --global credential.helper store  # This caches credentials on the runner
+          echo "${{ secrets.CLONE_PATH }}" > ~/.git-credentials
+          git config --global credential.helper 'store --file ~/.git-credentials'
+          
           cd ..
           for i in conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do git clone https://github.com/awakari/$i.git; done
+          
           cd core
           mkdir helm/core/charts
           cd helm/core/charts
           for i in conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do helm package ../../../../$i/helm/$i; done
           cd ../../..
+          
           helm dependency update helm/core
           helm lint helm/core
