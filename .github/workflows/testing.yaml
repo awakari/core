@@ -12,11 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v3
-
-      - uses: actions/checkout@v3
+      - name: clone core
+        uses: actions/checkout@v3
         with:
-          path: ".."
+          path: "core"
+
+      - name: clone conditions-text
+        uses: actions/checkout@v3
+        with:
+          path: "conditions-text"
           repository: awakari/conditions-text
 
       - name: Set up Helm
