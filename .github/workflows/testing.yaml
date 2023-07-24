@@ -97,4 +97,5 @@ jobs:
           cd ../../..
           
           helm dependency update helm/core
+          echo "!!!"
           helm lint helm/core
