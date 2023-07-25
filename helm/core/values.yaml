@@ -130,10 +130,14 @@ subscriptionsproxy:
     conditions:
       text:
         uri: "core-conditionstext:50051"
-    subscriptions: # storage
-      uri: "subscriptions:50051" # use internal subscriptions storage
+    subscriptions:
+      uri: "subscriptions.awakari.cloud:443"
       tls:
-        enabled: false # don't use mTLS for the internal subscriptions storage
+        enabled: true
+        secret:
+          client:
+            crt: secret-subscriptions-tls-client-crt
+            key: secret-subscriptions-tls-client-key
   cache:
     redis:
       # change the addrs in accordance when you change the redis node count

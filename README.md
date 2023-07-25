@@ -33,9 +33,7 @@ For a component-specific options see the corresponding sub-chart configuration. 
 
 # 3. Deployment
 
-Kubernetes cluster is required for the work.
-
-## 3.1. General Steps
+## 3.1. On-Premises Cluster Preparation
 
 Create the target namespace:
 ```shell
@@ -55,39 +53,18 @@ kubectl create secret generic github-registry \
     --type=kubernetes.io/dockerconfigjson
 ```
 
-Install the package:
-```shell
-helm repo add awakari-core https://awakari.github.io/core
-helm install core core-0.0.0.tgz -n awakari
-```
+## 3.2. Cloud Subscriptions
 
-> **Warning**
-> 
-> Do not change the "core" release name
-
-## 3.2. Cloud MongoDB
-
-> **Note**:
->
-> This step is optional, by default the core system comes with internal MongoDB sharded cluster.
-
-To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the 
-reference and substitute these with own values.
-
-```shell
-helm install core core-0.0.0.tgz -n awakari --values values-mongodb-ext.yaml
-```
-
-## 3.3. Cloud Subscriptions
-
-> **Note**:
->
-> Cloud subscriptions doesn't have any access to events data.
-
+Cloud subscriptions service is required for the core system to function. 
 Using cloud subscriptions requires mutual TLS authentication and encryption to secure the client subscriptions data.
+To access the cloud subscriptions it's necessary to have a client certificate.
 
-For the demo purposes, there are the cloud instance `demo.subscriptions.awakari.cloud` is available.
-Demo client certificates are in the [certs/demo](certs/demo) directory.
+> **Note**:
+>
+> Cloud subscriptions doesn't have any access to events data being processed by core system.
+
+For the demo purposes, there is the cloud instance `demo.subscriptions.awakari.cloud` available.
+Ready-to-use demo client certificates are in the [certs/demo](certs/demo) directory.
 
 For production usage, prepare own client certificate request:
 ```shell
@@ -103,7 +80,7 @@ openssl req -new -newkey rsa:4096 -nodes \
 > Never specify additional certificate attributes like "O", "OU", etc.
 > The resulting DN should not contain commas.
 
-Then request the client certificate. 
+Then request the client certificate.
 
 After the client certificate (`client.crt`) is received, create a pair of cluster secrets:
 ```shell
@@ -111,9 +88,35 @@ kubectl create secret generic -n awakari secret-subscriptions-tls-client-key --f
 kubectl create secret generic -n awakari secret-subscriptions-tls-client-crt --from-file=client.crt
 ```
 
-Refer to the values file [values-subscriptions-cloud-demo.yaml](helm/core/values-subscriptions-cloud-demo.yaml).
+## 3.3. Core Installation
+
+Install the package:
 ```shell
-helm install core core-0.0.0.tgz -n awakari --values values-subscriptions-cloud-demo.yaml
+helm repo add awakari-core https://awakari.github.io/core
+helm install core core-0.0.0.tgz -n awakari
+```
+
+> **Warning**
+> 
+> Do not change the "core" release name
+
+To connect the core system to the demo cloud subscriptions, override the address:
+```shell
+helm install core core-0.0.0.tgz -n awakari \
+  --set subscriptionsproxy.api.subscriptions.uri=demo.subscriptions.awakari.cloud:443
+```
+
+## 3.4. Cloud MongoDB
+
+> **Note**:
+>
+> This step is optional, by default the core system comes with internal MongoDB sharded cluster.
+
+To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the 
+reference and substitute these with own values.
+
+```shell
+helm install core core-0.0.0.tgz -n awakari --values values-mongodb-ext.yaml
 ```
 
 # 4. Usage
