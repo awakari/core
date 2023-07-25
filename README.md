@@ -64,7 +64,7 @@ To access the cloud subscriptions it's necessary to have a client certificate.
 
 > **Note**:
 >
-> Cloud subscriptions doesn't have any access to events data being processed by core system.
+> Cloud subscriptions doesn't have any access to events data being processed by the core system.
 
 For the demo purposes, there is the cloud instance `demo.subscriptions.awakari.cloud` available.
 Ready-to-use demo client certificates are in the [certs/demo](certs/demo) directory.
