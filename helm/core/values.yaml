@@ -78,16 +78,22 @@ redis:
 semaphore:
   backend:
     nats: true
+  image:
+    pullPolicy: "IfNotPresent"
   nats:
     uri: "nats://core-nats:4222"
 
 queue:
   backend:
     nats: true
+  image:
+    pullPolicy: "IfNotPresent"
   nats:
     uri: "nats://core-nats:4222"
 
 conditionstext:
+  image:
+    pullPolicy: "IfNotPresent"
   db:
     hostname: "core-mongodb:27017"
     name: "conditions-text"
@@ -106,6 +112,8 @@ conditionstext:
     mostFreqLimit: 256
 
 matches:
+  image:
+    pullPolicy: "IfNotPresent"
   # Database related configuration.
   db:
     hostname: "core-mongodb:27017"
@@ -117,6 +125,8 @@ matches:
         name: "core-mongodb"
 
 messages:
+  image:
+    pullPolicy: "IfNotPresent"
   db:
     hostname: "core-mongodb:27017"
     username: "root"
@@ -126,6 +136,8 @@ messages:
         name: "core-mongodb"
 
 subscriptionsproxy:
+  image:
+    pullPolicy: "IfNotPresent"
   api:
     conditions:
       text:
@@ -144,6 +156,8 @@ subscriptionsproxy:
       addrs: "core-redis:6379"
 
 reader:
+  image:
+    pullPolicy: "IfNotPresent"
   api:
     matches:
       uri: "core-matches:50051"
@@ -153,6 +167,8 @@ reader:
       uri: "core-semaphore:50051"
 
 writer:
+  image:
+    pullPolicy: "IfNotPresent"
   api:
     conditions:
       text:
