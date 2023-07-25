@@ -33,7 +33,11 @@ For a component-specific options see the corresponding sub-chart configuration. 
 
 # 3. Deployment
 
-## 3.1. On-Premises Cluster Preparation
+There are the following resources required:
+1. Own K8s cluster
+2. Cloud subscriptions service access
+
+## 3.1. Own Cluster Preparation
 
 Create the target namespace:
 ```shell
@@ -55,7 +59,6 @@ kubectl create secret generic github-registry \
 
 ## 3.2. Cloud Subscriptions
 
-Cloud subscriptions service is required for the core system to function. 
 Using cloud subscriptions requires mutual TLS authentication and encryption to secure the client subscriptions data.
 To access the cloud subscriptions it's necessary to have a client certificate.
 
