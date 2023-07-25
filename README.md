@@ -42,9 +42,9 @@ Create the target namespace:
 kubectl create namespace awakari
 ```
 
-Use the public GitHub registry access token to pull (only) Awakari images:
+Request and use the public GitHub registry access token to pull Awakari images:
 ```shell
-docker login ghcr.io -u akurilov -p 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
+docker login ghcr.io -u akurilov -p <ACCESS_TOKEN>
 ```
 
 Create the image pull secret:
