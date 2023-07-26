@@ -42,6 +42,11 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     alias: redis
 
+  - name: jaeger
+    version: 0.71.10
+    repository: https://jaegertracing.github.io/helm-charts
+    condition: tracing.enabled
+
   - name: semaphore-nats
     version: 0.0.0
     repository: "file://../../../semaphore-nats/helm/semaphore-nats"

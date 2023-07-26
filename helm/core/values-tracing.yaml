@@ -1,0 +1,8 @@
+tracing:
+  enabled: true
+
+writer:
+  tracing:
+    enabled: true
+    collector:
+      uri: "http://core-jaeger-collector:14268/api/traces"
