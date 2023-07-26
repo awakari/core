@@ -3,7 +3,7 @@ entries:
   core:
   - apiVersion: v2
     appVersion: latest
-    created: "2023-07-25T14:14:19.192330903Z"
+    created: "2023-07-26T18:48:42.053987115Z"
     dependencies:
     - alias: mongodb
       condition: mongodb.internal
@@ -19,6 +19,10 @@ entries:
       name: redis-cluster
       repository: https://charts.bitnami.com/bitnami
       version: 8.6.9
+    - condition: tracing.enabled
+      name: jaeger
+      repository: https://jaegertracing.github.io/helm-charts
+      version: 0.71.10
     - alias: semaphore
       condition: semaphore.backend.nats
       name: semaphore-nats
@@ -50,10 +54,10 @@ entries:
       repository: file://../../../writer/helm/writer
       version: 0.0.0
     description: Helm chart for the Awakari Core system deployment
-    digest: b7b558a3eeabf73674ab9aec28791af79d7fafe5776e15693fc7dcf38d057a97
+    digest: ab48361fb3c9a560af4ad58e901c6b950f3791623ffc93a2244ac780e3b8ce7c
     name: core
     type: application
     urls:
     - core-0.0.0.tgz
     version: 0.0.0
-generated: "2023-07-25T14:14:19.174399124Z"
+generated: "2023-07-26T18:48:42.01567211Z"
