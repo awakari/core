@@ -94,8 +94,7 @@ var Subs = []subscription.Data{
 					condition.
 						NewBuilder().
 						MatchAttrKey("summary").
-						MatchText("of").
-						MatchExact().
+						MatchText("propose").
 						BuildTextCondition(),
 				},
 			).

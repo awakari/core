@@ -81,6 +81,14 @@ dependencies:
     version: 0.0.0
     repository: "file://../../../reader/helm/reader"
 
+  - name: evaluator
+    version: 0.0.0
+    repository: "file://../../../evaluator/helm/evaluator"
+
   - name: writer
     version: 0.0.0
     repository: "file://../../../writer/helm/writer"
+
+  - name: resolver
+    version: 0.0.0
+    repository: "file://../../../resolver/helm/resolver"

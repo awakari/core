@@ -30,6 +30,7 @@ For a component-specific options see the corresponding sub-chart configuration. 
 | mongodb.internal       | `true`  | Defines whether to deploy the MongoDB internally or use external one.                                                    | 
 | queue.backend.nats     | `true`  | Enables the NATS JetStream queue wrapper service. Exclusive, can not be used together with other queue backends.         |
 | semaphore.backend.nats | `true`  | Enables the NATS-based distributed semaphore service. Exclusive, can not be used together with other semaphore backends. |
+| tracing.enabled        | `false` | Enables the distributed tracing, internal Jaeger and Cassandra deployment as well to collect the spans.                  | 
 
 # 3. Deployment
 
@@ -140,11 +141,11 @@ Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 2. Download the necessary proto files and save to the current directory:
    1. [Cloud Events](https://awakari.com/proto/cloudevent.proto)
    2. [Reader](https://awakari.com/proto/reader.proto)
-   3. [Writer](https://awakari.com/proto/writer.proto)
+   3. [Resolver](https://awakari.com/proto/resolver.proto)
 3. Port-forward services to local:
    1. `core-reader` -> 50051
-   2. `core-subscriptionsproxy` -> 50052
-   3. `core-writer` -> 50053
+   2. `core-resolver` -> 50052
+   3. `core-subscriptionsproxy` -> 50053
 
 ### 4.2.2. Subscriptions
 
@@ -154,7 +155,7 @@ grpcurl \
   -plaintext \
   -H 'X-Awakari-User-Id: john.doe@company1.com' \
   -d @ \
-  localhost:50052 \
+  localhost:50053 \
   awakari.subscriptions.Service/Create
 ```
 
@@ -218,8 +219,8 @@ grpcurl \
   -proto writer.proto \
   -H 'X-Awakari-User-Id: john.doe@company1.com' \
   -d @ \
-  localhost:50053 \
-  awakari.writer.Service/SubmitMessages
+  localhost:50052 \
+  awakari.resolver.Service/SubmitMessages
 ```
 
 Specify the events to write in the payload:
@@ -264,15 +265,17 @@ The core of Awakari consist of:
   * [Matches](https://github.com/awakari/matches)
   * [Messages](https://github.com/awakari/messages)
 * Stateless components
-  * [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy) 
-  * [Writer](https://github.com/awakari/writer)
+  * [Subscriptions-Proxy](https://github.com/awakari/subscriptions-proxy)
   * [Reader](https://github.com/awakari/reader)
+  * [Evaluator](https://github.com/awakari/evaluator)
+  * [Writer](https://github.com/awakari/writer)
+  * [Resolver](https://github.com/awakari/resolver)
 * 3-rd part components
   * Mongodb (sharded)
   * Redis in-memory cache
   * NATS message bus
 
-![components](doc/components-core.png)
+![components](doc/components-2023-07-27.png)
 
 # 6. Contributing
 
@@ -292,7 +295,7 @@ TODO
 
 Build a helm package:
 ```shell
-for i in core conditions-text matches messages queue-nats reader subscriptions-proxy semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
+for i in core conditions-text evaluator matches messages queue-nats reader resolver subscriptions-proxy semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
 cd core
 helm dependency update helm/core
 helm package helm/core
@@ -307,8 +310,8 @@ The repo contains core functional end-to-end tests.
 To run the tests locally:
 
 1. Port-forward the reader API to local port 50051
-2. Port-forward the subscriptions API to local port 50052
-3. Port-forward the writer API to local port 50053
+2. Port-forward the resolver API to local port 50052
+3. Port-forward the subscriptions API to local port 50053
 4. 
 ```shell 
 make test

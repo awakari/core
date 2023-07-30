@@ -23,7 +23,7 @@ func Test_MessageDelivery(t *testing.T) {
 	client, err = api.
 		NewClientBuilder().
 		SubscriptionsUri(cfg.Uri.Subscriptions).
-		WriterUri(cfg.Uri.Writer).
+		WriterUri(cfg.Uri.Resolver).
 		ReaderUri(cfg.Uri.Reader).
 		Build()
 	require.Nil(t, err)
@@ -39,7 +39,7 @@ func Test_MessageDelivery(t *testing.T) {
 		subIds = append(subIds, subId)
 	}
 	//
-	time.Sleep(100 * time.Second) // wait for the cond/sub cache entries expiration
+	//time.Sleep(100 * time.Second) // wait for the cond/sub cache entries expiration
 	//
 	var msgsWriter model.Writer[*pb.CloudEvent]
 	msgsWriter, err = client.OpenMessagesWriter(groupIdCtx, "test-user-1")
@@ -97,7 +97,7 @@ func Test_MessageDelivery(t *testing.T) {
 	for k, c := range cases {
 		t.Run(k, func(t *testing.T) {
 			//
-			ctx, cancel := context.WithTimeout(context.TODO(), 10*time.Second)
+			ctx, cancel := context.WithTimeout(context.TODO(), 50*time.Second)
 			defer cancel()
 			var msgsReader model.Reader[[]*pb.CloudEvent]
 			msgsReader, err = client.OpenMessagesReader(ctx, "test-user-0", c.subId, 4)

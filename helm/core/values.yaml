@@ -169,7 +169,33 @@ reader:
     semaphore:
       uri: "core-semaphore:50051"
 
+evaluator:
+  image:
+    pullPolicy: "IfNotPresent"
+  api:
+    matches:
+      uri: "core-matches:50051"
+    reader:
+      uri: "core-reader:50051"
+  queue:
+    batchSize: 64
+    limit: 4096
+    uri: "core-queue:50051"
+
 writer:
+  image:
+    pullPolicy: "IfNotPresent"
+  api:
+    messages:
+      uri: "core-messages:50051"
+    evaluator:
+      uri: "core-evaluator:50051"
+  queue:
+    batchSize: 64
+    limit: 4096
+    uri: "core-queue:50051"
+
+resolver:
   image:
     pullPolicy: "IfNotPresent"
   api:
@@ -180,10 +206,8 @@ writer:
       uri: "core-subscriptionsproxy:50051"
     matches:
       uri: "core-matches:50051"
-    messages:
-      uri: "core-messages:50051"
-    reader:
-      uri: "core-reader:50051"
+    writer:
+      uri: "core-writer:50051"
   queue:
     batchSize: 64
     limit: 4096

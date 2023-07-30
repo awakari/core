@@ -42,7 +42,7 @@ var Msgs = []*pb.CloudEvent{
 		Attributes: map[string]*pb.CloudEventAttributeValue{
 			"summary": {
 				Attr: &pb.CloudEventAttributeValue_CeString{
-					CeString: "NBCUniversal's former head of advertising is revealed as the new boss of the social network.",
+					CeString: "NBCUniversal's former head of advertising is revealed as the new boss of the social network. Propose",
 				},
 			},
 			"time": {
