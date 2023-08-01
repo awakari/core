@@ -3,7 +3,7 @@ entries:
   core:
   - apiVersion: v2
     appVersion: latest
-    created: "2023-07-26T18:48:42.053987115Z"
+    created: "2023-08-01T17:02:53.877578517Z"
     dependencies:
     - alias: mongodb
       condition: mongodb.internal
@@ -50,14 +50,20 @@ entries:
     - name: reader
       repository: file://../../../reader/helm/reader
       version: 0.0.0
+    - name: evaluator
+      repository: file://../../../evaluator/helm/evaluator
+      version: 0.0.0
     - name: writer
       repository: file://../../../writer/helm/writer
       version: 0.0.0
+    - name: resolver
+      repository: file://../../../resolver/helm/resolver
+      version: 0.0.0
     description: Helm chart for the Awakari Core system deployment
-    digest: ab48361fb3c9a560af4ad58e901c6b950f3791623ffc93a2244ac780e3b8ce7c
+    digest: 226180fe0f00ea5c2dc1ef9f89a2e469abe581710364bce3cc255b22b7c89967
     name: core
     type: application
     urls:
     - core-0.0.0.tgz
     version: 0.0.0
-generated: "2023-07-26T18:48:42.01567211Z"
+generated: "2023-08-01T17:02:53.842244077Z"
