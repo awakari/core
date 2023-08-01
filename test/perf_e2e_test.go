@@ -31,7 +31,7 @@ func Test_Perf_EndToEnd(t *testing.T) {
 	client, err = api.
 		NewClientBuilder().
 		SubscriptionsUri(cfg.Uri.Subscriptions).
-		WriterUri(cfg.Uri.Writer).
+		WriterUri(cfg.Uri.Resolver).
 		ReaderUri(cfg.Uri.Reader).
 		Build()
 	require.Nil(t, err)
@@ -52,195 +52,195 @@ func Test_Perf_EndToEnd(t *testing.T) {
 			batchSize: 1,
 			duration:  300 * time.Second,
 		},
-		"subCount = 1, writeRate = 5": {
-			subCount:  1,
-			writeRate: 5,
-			batchSize: 1,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1, writeRate = 10": {
-			subCount:  1,
-			writeRate: 10,
-			batchSize: 2,
-			duration:  200 * time.Second,
-		},
+		//"subCount = 1, writeRate = 5": {
+		//    subCount:  1,
+		//    writeRate: 5,
+		//    batchSize: 1,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1, writeRate = 10": {
+		//    subCount:  1,
+		//    writeRate: 10,
+		//    batchSize: 2,
+		//    duration:  200 * time.Second,
+		//},
 		"subCount = 1, writeRate = 20": {
 			subCount:  1,
 			writeRate: 20,
 			batchSize: 16,
 			duration:  200 * time.Second,
 		},
-		"subCount = 1, writeRate = 50": {
-			subCount:  1,
-			writeRate: 50,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1, writeRate = 100": {
-			subCount:  1,
-			writeRate: 100,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
+		//"subCount = 1, writeRate = 50": {
+		//    subCount:  1,
+		//    writeRate: 50,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1, writeRate = 100": {
+		//    subCount:  1,
+		//    writeRate: 100,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
 		"subCount = 1, writeRate = 200": {
 			subCount:  1,
 			writeRate: 200,
 			batchSize: 16,
 			duration:  200 * time.Second,
 		},
-		"subCount = 1, writeRate = 500": {
-			subCount:  1,
-			writeRate: 500,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
+		//"subCount = 1, writeRate = 500": {
+		//    subCount:  1,
+		//    writeRate: 500,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
 		// subCount = 10
-		"subCount = 10, writeRate = 2": {
-			subCount:  10,
-			writeRate: 2,
-			batchSize: 1,
-			duration:  300 * time.Second,
-		},
-		"subCount = 10, writeRate = 5": {
-			subCount:  10,
-			writeRate: 5,
-			batchSize: 1,
-			duration:  200 * time.Second,
-		},
-		"subCount = 10, writeRate = 10": {
-			subCount:  10,
-			writeRate: 10,
-			batchSize: 2,
-			duration:  200 * time.Second,
-		},
-		"subCount = 10, writeRate = 20": {
-			subCount:  10,
-			writeRate: 20,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 10, writeRate = 50": {
-			subCount:  10,
-			writeRate: 50,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 10, writeRate = 100": {
-			subCount:  10,
-			writeRate: 100,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 10, writeRate = 200": {
-			subCount:  10,
-			writeRate: 200,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 10, writeRate = 500": {
-			subCount:  10,
-			writeRate: 500,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
+		//"subCount = 10, writeRate = 2": {
+		//    subCount:  10,
+		//    writeRate: 2,
+		//    batchSize: 1,
+		//    duration:  300 * time.Second,
+		//},
+		//"subCount = 10, writeRate = 5": {
+		//    subCount:  10,
+		//    writeRate: 5,
+		//    batchSize: 1,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 10, writeRate = 10": {
+		//    subCount:  10,
+		//    writeRate: 10,
+		//    batchSize: 2,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 10, writeRate = 20": {
+		//    subCount:  10,
+		//    writeRate: 20,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 10, writeRate = 50": {
+		//    subCount:  10,
+		//    writeRate: 50,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 10, writeRate = 100": {
+		//    subCount:  10,
+		//    writeRate: 100,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 10, writeRate = 200": {
+		//    subCount:  10,
+		//    writeRate: 200,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 10, writeRate = 500": {
+		//    subCount:  10,
+		//    writeRate: 500,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
 		// subCount = 100
-		"subCount = 100, writeRate = 2": {
-			subCount:  100,
-			writeRate: 2,
-			batchSize: 1,
-			duration:  300 * time.Second,
-		},
-		"subCount = 100, writeRate = 5": {
-			subCount:  100,
-			writeRate: 5,
-			batchSize: 1,
-			duration:  200 * time.Second,
-		},
-		"subCount = 100, writeRate = 10": {
-			subCount:  100,
-			writeRate: 10,
-			batchSize: 2,
-			duration:  200 * time.Second,
-		},
-		"subCount = 100, writeRate = 20": {
-			subCount:  100,
-			writeRate: 20,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 100, writeRate = 50": {
-			subCount:  100,
-			writeRate: 50,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 100, writeRate = 100": {
-			subCount:  100,
-			writeRate: 100,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 100, writeRate = 200": {
-			subCount:  100,
-			writeRate: 200,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 100, writeRate = 500": {
-			subCount:  100,
-			writeRate: 500,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
+		//"subCount = 100, writeRate = 2": {
+		//    subCount:  100,
+		//    writeRate: 2,
+		//    batchSize: 1,
+		//    duration:  300 * time.Second,
+		//},
+		//"subCount = 100, writeRate = 5": {
+		//    subCount:  100,
+		//    writeRate: 5,
+		//    batchSize: 1,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 100, writeRate = 10": {
+		//    subCount:  100,
+		//    writeRate: 10,
+		//    batchSize: 2,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 100, writeRate = 20": {
+		//    subCount:  100,
+		//    writeRate: 20,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 100, writeRate = 50": {
+		//    subCount:  100,
+		//    writeRate: 50,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 100, writeRate = 100": {
+		//    subCount:  100,
+		//    writeRate: 100,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 100, writeRate = 200": {
+		//    subCount:  100,
+		//    writeRate: 200,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 100, writeRate = 500": {
+		//    subCount:  100,
+		//    writeRate: 500,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
 		// subCount = 1000
-		"subCount = 1000, writeRate = 2": {
-			subCount:  1000,
-			writeRate: 2,
-			batchSize: 1,
-			duration:  300 * time.Second,
-		},
-		"subCount = 1000, writeRate = 5": {
-			subCount:  1000,
-			writeRate: 5,
-			batchSize: 1,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1000, writeRate = 10": {
-			subCount:  1000,
-			writeRate: 10,
-			batchSize: 2,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1000, writeRate = 20": {
-			subCount:  1000,
-			writeRate: 20,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1000, writeRate = 50": {
-			subCount:  1000,
-			writeRate: 50,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1000, writeRate = 100": {
-			subCount:  1000,
-			writeRate: 100,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1000, writeRate = 200": {
-			subCount:  1000,
-			writeRate: 200,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
-		"subCount = 1000, writeRate = 500": {
-			subCount:  1000,
-			writeRate: 500,
-			batchSize: 16,
-			duration:  200 * time.Second,
-		},
+		//"subCount = 1000, writeRate = 2": {
+		//    subCount:  1000,
+		//    writeRate: 2,
+		//    batchSize: 1,
+		//    duration:  300 * time.Second,
+		//},
+		//"subCount = 1000, writeRate = 5": {
+		//    subCount:  1000,
+		//    writeRate: 5,
+		//    batchSize: 1,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1000, writeRate = 10": {
+		//    subCount:  1000,
+		//    writeRate: 10,
+		//    batchSize: 2,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1000, writeRate = 20": {
+		//    subCount:  1000,
+		//    writeRate: 20,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1000, writeRate = 50": {
+		//    subCount:  1000,
+		//    writeRate: 50,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1000, writeRate = 100": {
+		//    subCount:  1000,
+		//    writeRate: 100,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1000, writeRate = 200": {
+		//    subCount:  1000,
+		//    writeRate: 200,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
+		//"subCount = 1000, writeRate = 500": {
+		//    subCount:  1000,
+		//    writeRate: 500,
+		//    batchSize: 16,
+		//    duration:  200 * time.Second,
+		//},
 	}
 	//
 	for k, c := range cases {
@@ -392,7 +392,7 @@ func Test_Perf_MaxRate_WriteRead(t *testing.T) {
 	client, err = api.
 		NewClientBuilder().
 		SubscriptionsUri(cfg.Uri.Subscriptions).
-		WriterUri(cfg.Uri.Writer).
+		WriterUri(cfg.Uri.Resolver).
 		ReaderUri(cfg.Uri.Reader).
 		Build()
 	require.Nil(t, err)

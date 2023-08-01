@@ -49,6 +49,13 @@ jobs:
           repository: awakari/conditions-text
           token: ${{ secrets.CLONE_PAT }}
 
+      - name: clone evaluator
+        uses: actions/checkout@v3
+        with:
+          path: "evaluator"
+          repository: awakari/evaluator
+          token: ${{ secrets.CLONE_PAT }}
+
       - name: clone matches
         uses: actions/checkout@v3
         with:
@@ -75,6 +82,13 @@ jobs:
         with:
           path: "reader"
           repository: awakari/reader
+          token: ${{ secrets.CLONE_PAT }}
+
+      - name: clone resolver
+        uses: actions/checkout@v3
+        with:
+          path: "resolver"
+          repository: awakari/resolver
           token: ${{ secrets.CLONE_PAT }}
 
       - name: clone subscriptions-proxy
