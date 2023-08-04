@@ -156,7 +156,7 @@ grpcurl \
   -H 'X-Awakari-User-Id: john.doe@company1.com' \
   -d @ \
   localhost:50053 \
-  awakari.subscriptions.Service/Create
+  awakari.subscriptions.proxy.Service/Create
 ```
 
 Example payload:
