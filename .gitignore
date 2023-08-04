@@ -20,3 +20,4 @@ vendor/
 ghcr_io_pat.txt
 awakari-pull.pat
 helm/core/values-mongodb-ext-dev.yaml
+helm/core/values-mongodb-ext-demo.yaml
