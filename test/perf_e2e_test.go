@@ -107,12 +107,12 @@ func Test_Perf_EndToEnd(t *testing.T) {
 		//    batchSize: 1,
 		//    duration:  200 * time.Second,
 		//},
-		//"subCount = 10, writeRate = 10": {
-		//    subCount:  10,
-		//    writeRate: 10,
-		//    batchSize: 2,
-		//    duration:  200 * time.Second,
-		//},
+		"subCount = 10, writeRate = 10": {
+			subCount:  10,
+			writeRate: 10,
+			batchSize: 2,
+			duration:  200 * time.Second,
+		},
 		//"subCount = 10, writeRate = 20": {
 		//    subCount:  10,
 		//    writeRate: 20,
@@ -174,12 +174,12 @@ func Test_Perf_EndToEnd(t *testing.T) {
 		//    batchSize: 16,
 		//    duration:  200 * time.Second,
 		//},
-		//"subCount = 100, writeRate = 100": {
-		//    subCount:  100,
-		//    writeRate: 100,
-		//    batchSize: 16,
-		//    duration:  200 * time.Second,
-		//},
+		"subCount = 100, writeRate = 100": {
+			subCount:  100,
+			writeRate: 100,
+			batchSize: 16,
+			duration:  200 * time.Second,
+		},
 		//"subCount = 100, writeRate = 200": {
 		//    subCount:  100,
 		//    writeRate: 200,
@@ -411,7 +411,7 @@ func Test_Perf_MaxRate_WriteRead(t *testing.T) {
 			subCount:  1,
 			writeRate: 2,
 			batchSize: 1,
-			duration:  300 * time.Second,
+			duration:  100 * time.Second,
 		},
 		"subCount = 1, writeRate = 5": {
 			subCount:  1,
@@ -729,7 +729,7 @@ func Test_Perf_MaxRate_WriteRead(t *testing.T) {
 			fmt.Printf("Rate: %f, Latency: 50th=%f, 90th=%f, 99th=%f [s]\n", float64(len(readTsByEvtId))/float64(timeRead), lat50th, lat90th, lat99th)
 
 			t.Log("wait until writer queue is consumed completely...")
-			time.Sleep(5 * time.Minute)
+			time.Sleep(10 * time.Second)
 
 			// clean matches
 			matchesCleanOutput, err := exec.Command("grpcurl", "-plaintext", "-d", "{}", "localhost:50054", "awakari.matches.Service/Clean").Output()

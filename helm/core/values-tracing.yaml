@@ -7,13 +7,25 @@ evaluator:
     collector:
       uri: "http://core-jaeger-collector:14268/api/traces"
 
-writer:
+matches:
+  tracing:
+    enabled: true
+    collector:
+      uri: "http://core-jaeger-collector:14268/api/traces"
+
+reader:
   tracing:
     enabled: true
     collector:
       uri: "http://core-jaeger-collector:14268/api/traces"
 
 resolver:
+  tracing:
+    enabled: true
+    collector:
+      uri: "http://core-jaeger-collector:14268/api/traces"
+
+writer:
   tracing:
     enabled: true
     collector:
