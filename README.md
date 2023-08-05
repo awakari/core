@@ -63,7 +63,7 @@ kubectl create secret generic github-registry \
 Using cloud subscriptions requires mutual TLS authentication and encryption to secure the client subscriptions data.
 To access the cloud subscriptions it's necessary to have a client certificate.
 
-> **Note**:
+> [!IMPORTANT]
 >
 > Cloud subscriptions doesn't have any access to events data being processed by the core system.
 
