@@ -112,7 +112,7 @@ helm install core core-0.0.0.tgz -n awakari \
 
 ## 3.4. Cloud MongoDB
 
-> **Note**:
+> [!NOTE]
 >
 > This step is optional, by default the core system comes with internal MongoDB sharded cluster.
 
@@ -129,7 +129,7 @@ helm install core core-0.0.0.tgz -n awakari --values values-mongodb-ext.yaml
 
 Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 
-> **Note**:
+> [!NOTE]
 >
 > Usage Limits and Permits APIs are not available in the Core.
 
