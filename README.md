@@ -75,7 +75,6 @@ Using cloud subscriptions requires mutual TLS authentication and encryption to s
 To access the cloud subscriptions it's necessary to have a client certificate.
 
 > [!IMPORTANT]
->
 > Cloud subscriptions doesn't have any access to events data being processed by the core system.
 
 For the demo purposes, there is the cloud instance `demo.subscriptions.awakari.cloud` available.
