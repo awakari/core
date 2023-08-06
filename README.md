@@ -80,7 +80,6 @@ openssl req -new -newkey rsa:4096 -nodes \
 ```
 
 > **Warning**
->
 > Never specify additional certificate attributes like "O", "OU", etc.
 > The resulting DN should not contain commas.
 
@@ -101,7 +100,6 @@ helm install core core-0.0.0.tgz -n awakari
 ```
 
 > **Warning**
-> 
 > Do not change the "core" release name
 
 To connect the core system to the demo cloud subscriptions, override the address:
@@ -110,18 +108,47 @@ helm install core core-0.0.0.tgz -n awakari \
   --set subscriptionsproxy.api.subscriptions.uri=demo.subscriptions.awakari.cloud:443
 ```
 
-## 3.4. Cloud MongoDB
+## 3.4. External MongoDB
 
 > [!NOTE]
->
 > This step is optional, by default the core system comes with internal MongoDB sharded cluster.
 
 To use external MongoDB, use the values file [values-mongodb-ext.yaml](helm/core/values-mongodb-ext.yaml) for the 
 reference and substitute these with own values.
 
+## 3.5. Tracing
+
+> [!NOTE]
+> This step is optional and may be useful for the performance testing purposes.
+
+It's possible to enable the [Open Telemetry](https://opentelemetry.io/) tracing collection. Core system uses 
+[Jaeger](https://www.jaegertracing.io/) collector API for this. Core system can deploy own Jaeger instance or use 
+external one.
+
+To enable tracing during the deployment the [values-tracing.yaml](helm/core/values-tracing.yaml) file may be used: 
 ```shell
-helm install core core-0.0.0.tgz -n awakari --values values-mongodb-ext.yaml
+helm install core core-0.0.0.tgz -n awakari \
+  --set subscriptionsproxy.api.subscriptions.uri=demo.subscriptions.awakari.cloud:443 \
+  --values helm/core/values-tracing.yaml
 ```
+
+To use external Jaeger, set the root value `tracing.enabled` to `false` and leave it enabled for the components with 
+setting the custom Jaeger collector URI:
+```shell
+helm install core core-0.0.0.tgz -n awakari \
+  --set subscriptionsproxy.api.subscriptions.uri=demo.subscriptions.awakari.cloud:443 \
+  --values helm/core/values-tracing.yaml \
+  --set tracing.enabled=false \
+  --set evaluator.tracing.collector.uri=http://external-jaeger-collector:14268/api/traces \
+  --set matches.tracing.collector.uri=http://external-jaeger-collector:14268/api/traces \
+  --set reader.tracing.collector.uri=http://external-jaeger-collector:14268/api/traces \
+  --set resolver.tracing.collector.uri=http://external-jaeger-collector:14268/api/traces \
+  --set writer.tracing.collector.uri=http://external-jaeger-collector:14268/api/traces
+```
+
+To observe the traces:
+1. run some workload, e.g. [e2e-test](test/e2e_test.go) or [perf-e2e-test](test/perf_e2e_test.go)
+2. port-forward the jaeger-query port 16686 to local and open it in browser.
 
 # 4. Usage
 
@@ -130,7 +157,6 @@ helm install core core-0.0.0.tgz -n awakari --values values-mongodb-ext.yaml
 Refer to [Client SDK Usage](https://github.com/awakari/client-sdk-go#3-usage).
 
 > [!NOTE]
->
 > Usage Limits and Permits APIs are not available in the Core.
 
 ## 4.2. API
