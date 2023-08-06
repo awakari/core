@@ -3,7 +3,18 @@
 1. [Overview](#1-overview)<br/>
 2. [Configuration](#2-configuration)<br/>
 3. [Deployment](#3-deployment)<br/>
+   3.1. [Cluster Preparation](#31-cluster-preparation)<br/>
+   3.2. [Connect Subscriptions](#32-connect-subscriptions)<br/>
+   3.3. [Core Installation](#33-core-installation)<br/>
+   3.4. [External DB](#34-external-db)<br/>
+   3.5. [Tracing](#35-tracing)<br/>
 4. [Usage](#4-usage)<br/>
+   4.1. [Client SDK](#41-client-sdk)<br/>
+   4.2. [API](#42-api)<br/>
+   &nbsp;&nbsp;&nbsp;4.2.1. [Preparation](#421-preparation)<br/>
+   &nbsp;&nbsp;&nbsp;4.2.2. [Preparation](#422-subscriptions)<br/>
+   &nbsp;&nbsp;&nbsp;4.2.3. [Read Events](#423-read-events)<br/>
+   &nbsp;&nbsp;&nbsp;4.2.4. [Write Events](#424-write-events)<br/>
 5. [Design](#5-design)<br/>
 6. [Contributing](#6-contributing)<br/>
    6.1. [Versioning](#61-versioning)<br/>
@@ -38,7 +49,7 @@ There are the following resources required:
 1. Own K8s cluster
 2. Cloud subscriptions service access
 
-## 3.1. Own Cluster Preparation
+## 3.1. Cluster Preparation
 
 Create the target namespace:
 ```shell
@@ -58,7 +69,7 @@ kubectl create secret generic github-registry \
     --type=kubernetes.io/dockerconfigjson
 ```
 
-## 3.2. Cloud Subscriptions
+## 3.2. Connect Subscriptions
 
 Using cloud subscriptions requires mutual TLS authentication and encryption to secure the client subscriptions data.
 To access the cloud subscriptions it's necessary to have a client certificate.
@@ -108,7 +119,7 @@ helm install core core-0.0.0.tgz -n awakari \
   --set subscriptionsproxy.api.subscriptions.uri=demo.subscriptions.awakari.cloud:443
 ```
 
-## 3.4. External MongoDB
+## 3.4. External DB
 
 > [!NOTE]
 > This step is optional, by default the core system comes with internal MongoDB sharded cluster.
