@@ -17,6 +17,13 @@ jobs:
         with:
           path: "core"
 
+      - name: clone conditions-number
+        uses: actions/checkout@v3
+        with:
+          path: "conditions-number"
+          repository: awakari/conditions-number
+          token: ${{ secrets.CLONE_PAT }}
+
       - name: clone conditions-text
         uses: actions/checkout@v3
         with:
