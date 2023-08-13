@@ -94,6 +94,23 @@ queue:
   nats:
     uri: "nats://core-nats:4222"
 
+conditionsnumber:
+  image:
+    pullPolicy: "IfNotPresent"
+  db:
+    hostname: "core-mongodb:27017"
+    name: "conditions-number"
+    table:
+      # Database table name to use.
+      name: "conditions-number"
+      lockTtl:
+        create: "1000s"
+    username: "root"
+    password:
+      secret:
+        enabled: true
+        name: "core-mongodb"
+
 conditionstext:
   image:
     pullPolicy: "IfNotPresent"
@@ -143,6 +160,8 @@ subscriptionsproxy:
     pullPolicy: "IfNotPresent"
   api:
     conditions:
+      num:
+        uri: "core-conditionsnumber:50051"
       text:
         uri: "core-conditionstext:50051"
     subscriptions:
@@ -200,6 +219,8 @@ resolver:
     pullPolicy: "IfNotPresent"
   api:
     conditions:
+      number:
+        uri: "core-conditionsnumber:50051"
       text:
         uri: "core-conditionstext:50051"
     subscriptions:

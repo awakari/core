@@ -3,6 +3,7 @@ package data
 import (
 	"github.com/awakari/client-sdk-go/model/subscription"
 	"github.com/awakari/client-sdk-go/model/subscription/condition"
+	"time"
 )
 
 var Subs = []subscription.Data{
@@ -10,8 +11,8 @@ var Subs = []subscription.Data{
 		Description: "disabled",
 		Condition: condition.
 			NewBuilder().
-			MatchAttrKey("author").
-			MatchText("Edna").
+			AttributeKey("author").
+			AnyOfWords("Edna").
 			BuildTextCondition(),
 	},
 	{
@@ -19,8 +20,8 @@ var Subs = []subscription.Data{
 		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
-			MatchAttrKey("author").
-			MatchText("Edna").
+			AttributeKey("author").
+			TextEquals("Edna").
 			BuildTextCondition(),
 	},
 	{
@@ -28,8 +29,8 @@ var Subs = []subscription.Data{
 		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
-			MatchAttrKey("tags").
-			MatchText("neutrino").
+			AttributeKey("tags").
+			AnyOfWords("neutrino").
 			BuildTextCondition(),
 	},
 	{
@@ -37,21 +38,18 @@ var Subs = []subscription.Data{
 		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
-			GroupLogic(condition.GroupLogicAnd).
-			GroupChildren(
-				[]condition.Condition{
-					condition.
-						NewBuilder().
-						MatchAttrKey("title").
-						MatchText("Elon").
-						BuildTextCondition(),
-					condition.
-						NewBuilder().
-						MatchAttrKey("title").
-						MatchText("Musk").
-						BuildTextCondition(),
-				},
-			).
+			All([]condition.Condition{
+				condition.
+					NewBuilder().
+					AttributeKey("title").
+					AnyOfWords("Elon").
+					BuildTextCondition(),
+				condition.
+					NewBuilder().
+					AttributeKey("title").
+					AnyOfWords("Musk").
+					BuildTextCondition(),
+			}).
 			BuildGroupCondition(),
 	},
 	{
@@ -59,21 +57,18 @@ var Subs = []subscription.Data{
 		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
-			GroupLogic(condition.GroupLogicOr).
-			GroupChildren(
-				[]condition.Condition{
-					condition.
-						NewBuilder().
-						MatchAttrKey("language").
-						MatchText("fi").
-						BuildTextCondition(),
-					condition.
-						NewBuilder().
-						MatchAttrKey("language").
-						MatchText("ru").
-						BuildTextCondition(),
-				},
-			).
+			Any([]condition.Condition{
+				condition.
+					NewBuilder().
+					AttributeKey("language").
+					AnyOfWords("fi").
+					BuildTextCondition(),
+				condition.
+					NewBuilder().
+					AttributeKey("language").
+					AnyOfWords("ru").
+					BuildTextCondition(),
+			}).
 			BuildGroupCondition(),
 	},
 	{
@@ -81,23 +76,28 @@ var Subs = []subscription.Data{
 		Enabled:     true,
 		Condition: condition.
 			NewBuilder().
-			GroupLogic(condition.GroupLogicAnd).
-			GroupChildren(
-				[]condition.Condition{
-					condition.
-						NewBuilder().
-						Negation().
-						MatchAttrKey("type").
-						MatchText("com.github.awakari.tgbot").
-						MatchExact().
-						BuildTextCondition(),
-					condition.
-						NewBuilder().
-						MatchAttrKey("summary").
-						MatchText("propose").
-						BuildTextCondition(),
-				},
-			).
+			All([]condition.Condition{
+				condition.
+					NewBuilder().
+					Not().
+					AttributeKey("type").
+					TextEquals("com.github.awakari.tgbot").
+					BuildTextCondition(),
+				condition.
+					NewBuilder().
+					AttributeKey("summary").
+					AnyOfWords("propose").
+					BuildTextCondition(),
+			}).
 			BuildGroupCondition(),
+	},
+	{
+		Description: "before a certain time",
+		Enabled:     true,
+		Condition: condition.
+			NewBuilder().
+			AttributeKey("time").
+			LessThan(float64(time.Date(2023, 05, 12, 17, 0, 0, 0, time.UTC).UnixMilli())).
+			BuildNumberCondition(),
 	},
 }

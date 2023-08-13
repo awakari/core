@@ -252,7 +252,7 @@ func Test_Perf_EndToEnd(t *testing.T) {
 				subData := subscription.Data{
 					Condition: condition.
 						NewBuilder().
-						MatchText(fmt.Sprintf("yohoho term%d", i)).
+						AnyOfWords(fmt.Sprintf("yohoho term%d", i)).
 						BuildTextCondition(),
 					Description: fmt.Sprintf("perf-test-sub-%d", i),
 					Enabled:     true,
@@ -613,7 +613,7 @@ func Test_Perf_MaxRate_WriteRead(t *testing.T) {
 				subData := subscription.Data{
 					Condition: condition.
 						NewBuilder().
-						MatchText(fmt.Sprintf("yohoho term%d", i)).
+						AnyOfWords(fmt.Sprintf("yohoho term%d", i)).
 						BuildTextCondition(),
 					Description: fmt.Sprintf("perf-test-sub-%d", i),
 					Enabled:     true,
