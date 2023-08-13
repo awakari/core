@@ -3,7 +3,7 @@ entries:
   core:
   - apiVersion: v2
     appVersion: latest
-    created: "2023-08-04T17:37:37.328687181Z"
+    created: "2023-08-13T15:32:21.528581155Z"
     dependencies:
     - alias: mongodb
       condition: mongodb.internal
@@ -33,6 +33,10 @@ entries:
       name: queue-nats
       repository: file://../../../queue-nats/helm/queue-nats
       version: 0.0.0
+    - alias: conditionsnumber
+      name: conditions-number
+      repository: file://../../../conditions-number/helm/conditions-number
+      version: 0.0.0
     - alias: conditionstext
       name: conditions-text
       repository: file://../../../conditions-text/helm/conditions-text
@@ -60,10 +64,10 @@ entries:
       repository: file://../../../resolver/helm/resolver
       version: 0.0.0
     description: Helm chart for the Awakari Core system deployment
-    digest: ef0908b608707d5a80449c189229acb757175de1e3123d50e37fcace2498417a
+    digest: 2ed17fc13656ba2b4062ac82fcf9470b1b76ed1805232fd7a7e7322b5dfedf4a
     name: core
     type: application
     urls:
     - core-0.0.0.tgz
     version: 0.0.0
-generated: "2023-08-04T17:37:37.288659137Z"
+generated: "2023-08-13T15:32:21.484900446Z"
