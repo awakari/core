@@ -39,7 +39,7 @@ func Test_MessageDelivery(t *testing.T) {
 		subIds = append(subIds, subId)
 	}
 	//
-	time.Sleep(100 * time.Second) // wait for the cond/sub cache entries expiration
+	//time.Sleep(100 * time.Second) // wait for the cond/sub cache entries expiration
 	//
 	var msgsWriter model.Writer[*pb.CloudEvent]
 	msgsWriter, err = client.OpenMessagesWriter(groupIdCtx, "test-user-1")
@@ -90,6 +90,13 @@ func Test_MessageDelivery(t *testing.T) {
 			msgs: []*pb.CloudEvent{
 				data.Msgs[0],
 				data.Msgs[1],
+			},
+		},
+		"time is before - a numeric condition": {
+			subId: subIds[6],
+			msgs: []*pb.CloudEvent{
+				data.Msgs[1],
+				data.Msgs[3],
 			},
 		},
 	}

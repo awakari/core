@@ -59,6 +59,11 @@ dependencies:
     condition: queue.backend.nats
     alias: queue
 
+  - name: conditions-number
+    alias: conditionsnumber
+    version: 0.0.0
+    repository: "file://../../../conditions-number/helm/conditions-number"
+
   - name: conditions-text
     alias: conditionstext
     version: 0.0.0

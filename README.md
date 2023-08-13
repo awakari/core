@@ -331,7 +331,7 @@ TODO
 
 Build a helm package:
 ```shell
-for i in core conditions-text evaluator matches messages queue-nats reader resolver subscriptions-proxy semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
+for i in core conditions-number conditions-text evaluator matches messages queue-nats reader resolver subscriptions-proxy semaphore-nats writer; do git clone git@github.com:awakari/$i.git; done
 cd core
 helm dependency update helm/core
 helm package helm/core

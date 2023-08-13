@@ -1,6 +1,21 @@
 mongodb:
   internal: false
 
+conditionsnumber:
+  db:
+    table:
+      shard: false
+    protocol: "mongodb+srv"
+    #    hostname: "db.cluster.mongodb.net"
+    #    username: "user-placeholder"
+    password:
+      secret:
+        enabled: false
+    #      raw: "password-placeholder"
+    tls:
+      enabled: true
+      insecure: true
+
 conditionstext:
   db:
     table:
