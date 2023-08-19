@@ -20,6 +20,6 @@ spec:
           value: "{{ .Release.Name }}-reader:{{ .Values.messages.service.port }}"
         - name: URI_SUBSCRIPTIONS
           value: "{{ .Release.Name }}-subscriptionsproxy:{{ .Values.subscriptionsproxy.service.port }}"
-        - name: URI_WRITER
-          value: "{{ .Release.Name }}-writer:{{ .Values.writer.service.port }}"
+        - name: URI_RESOLVER
+          value: "{{ .Release.Name }}-resolver:{{ .Values.writer.service.port }}"
   restartPolicy: Never

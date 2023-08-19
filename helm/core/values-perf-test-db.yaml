@@ -1,0 +1,156 @@
+mongodb:
+  internal: true
+  shards: 3 # test variable, vary: 1, 2, 3
+  configsvr:
+    nodeSelector:
+      purpose: svc
+  mongos:
+    replicaCount: 3 # should be equal to mongodb.shards
+    nodeSelector:
+      purpose: db
+  shardsvr:
+    dataNode:
+      podAntiAffinityPreset: hard
+      replicaCount: 1
+      nodeSelector:
+        purpose: db
+
+nats:
+  nodeSelector:
+    purpose: svc
+  replicaCount: 3
+
+redis:
+  redis:
+    nodeSelector:
+      purpose: svc
+
+semaphore:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  replicaCount: 3
+  resources:
+    limits: {}
+
+queue:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  replicaCount: 3
+  resources:
+    limits: {}
+
+conditionsnumber:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+
+conditionstext:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+  replicaCount: 3
+
+matches:
+  autoscaling:
+    enabled: false
+  db:
+    retentionPeriod: 1s
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+  replicaCount: 3
+
+messages:
+  autoscaling:
+    enabled: false
+  db:
+    retentionPeriod: 1s
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+  replicaCount: 3
+
+subscriptionsproxy:
+  api:
+    # use "local" subscriptions
+    subscriptions:
+      tls:
+        enabled: false
+      uri: "subscriptions:50051"
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+  replicaCount: 3
+
+reader:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+  replicaCount: 3
+
+evaluator:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+  replicaCount: 3
+
+writer:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  resources:
+    limits: {}
+  replicaCount: 3
+
+resolver:
+  autoscaling:
+    enabled: false
+  log:
+    level: 0
+  nodeSelector:
+    purpose: svc
+  replicaCount: 3
+  resources:
+    limits: {}

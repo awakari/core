@@ -40,15 +40,30 @@ mongodb:
       requests:
         cpu: 100m
         memory: 128Mi
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/component: mongos
   shardsvr:
     dataNode:
       replicaCount: 1
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/component: shardsvr
+      podAntiAffinityPreset: hard
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
     persistence:
       size: 10Gi
-    resources:
-      requests:
-        cpu: 100m
-        memory: 512Mi
 
 nats:
   auth:
@@ -65,6 +80,13 @@ nats:
     requests:
       cpu: 10m
       memory: 32Mi
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: nats
 
 redis:
   cluster:
@@ -77,6 +99,13 @@ redis:
     configmap: |
       maxmemory 1gb
       maxmemory-policy allkeys-lru
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: redis
 
 semaphore:
   backend:
@@ -173,6 +202,9 @@ subscriptionsproxy:
             crt: secret-subscriptions-tls-client-crt
             key: secret-subscriptions-tls-client-key
   cache:
+    local:
+      size: 1024
+      ttl: "1m"
     redis:
       # change the addrs in accordance when you change the redis node count
       addrs: "core-redis:6379"

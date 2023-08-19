@@ -362,6 +362,8 @@ helm test core -n awakari --filter name=core-test
 
 ![perf-e2e-test-report-2023-07-11](doc/perf-e2e-test-report-2023-07-11.png)
 
+![perf-e2e-test-report-2023-08-18](doc/perf-e2e-test-report-2023-08-18.png)
+
 ## 6.5. Releasing
 
 To release a new version (e.g. `1.2.3`) it's enough to put a git tag:
