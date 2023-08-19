@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: "core-tests-perf-e2e"
+  name: "core-tests-perf-e2e"
+spec:
+  template:
+    spec:
+      nodeSelector:
+        purpose: svc
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 12 }}
+      {{- end }}
+      initContainers:
+        - name: "core-tests-perf-e2e-subs10-rate200"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          command:
+            - /usr/bin/make
+          args:
+            - testperfe2e
+          env:
+            - name: TEST_PERF_E2E_SUB_COUNT
+              value: "10"
+            - name: TEST_PERF_E2E_WRITE_RATE
+              value: "200"
+            - name: TEST_PERF_E2E_BATCH_SIZE
+              value: "16"
+            - name: TEST_PERF_E2E_DURATION
+              value: "4m"
+            - name: URI_READER
+              value: "core-reader:50051"
+            - name: URI_SUBSCRIPTIONS
+              value: "core-subscriptionsproxy:50051"
+            - name: URI_RESOLVER
+              value: "core-resolver:50051"
+            - name: URI_MATCHES
+              value: "core-matches:50051"
+            - name: URI_MESSAGES
+              value: "core-messages:50051"
+      containers:
+        - name: job-done
+          image: busybox
+          command: [ 'sh', '-c', 'echo "core-tests-perf-e2e completed"' ]
+      restartPolicy: Never
