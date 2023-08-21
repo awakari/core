@@ -3,27 +3,27 @@ mongodb:
   shards: 3 # test variable, vary: 1, 2, 3
   configsvr:
     nodeSelector:
-      purpose: svc
+      purpose: data
   mongos:
     replicaCount: 3 # should be equal to mongodb.shards
     nodeSelector:
-      purpose: db
+      purpose: data
   shardsvr:
     dataNode:
       podAntiAffinityPreset: hard
       replicaCount: 1
       nodeSelector:
-        purpose: db
+        purpose: data
 
 nats:
   nodeSelector:
-    purpose: svc
+    purpose: compute
   replicaCount: 3
 
 redis:
   redis:
     nodeSelector:
-      purpose: svc
+      purpose: compute
 
 semaphore:
   autoscaling:
@@ -31,7 +31,7 @@ semaphore:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   replicaCount: 3
   resources:
     limits: {}
@@ -42,7 +42,7 @@ queue:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   replicaCount: 3
   resources:
     limits: {}
@@ -53,7 +53,7 @@ conditionsnumber:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
 
@@ -63,7 +63,7 @@ conditionstext:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
   replicaCount: 3
@@ -76,7 +76,7 @@ matches:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
   replicaCount: 3
@@ -89,7 +89,7 @@ messages:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
   replicaCount: 3
@@ -106,7 +106,7 @@ subscriptionsproxy:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
   replicaCount: 3
@@ -117,7 +117,7 @@ reader:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
   replicaCount: 3
@@ -128,7 +128,7 @@ evaluator:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
   replicaCount: 3
@@ -139,7 +139,7 @@ writer:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   resources:
     limits: {}
   replicaCount: 3
@@ -150,7 +150,7 @@ resolver:
   log:
     level: 0
   nodeSelector:
-    purpose: svc
+    purpose: compute
   replicaCount: 3
   resources:
     limits: {}

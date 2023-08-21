@@ -8,7 +8,7 @@ spec:
   template:
     spec:
       nodeSelector:
-        purpose: svc
+        purpose: compute
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 12 }}
