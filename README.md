@@ -93,7 +93,7 @@ openssl req -new -newkey rsa:4096 -nodes \
 > Never specify additional certificate attributes like "O", "OU", etc.
 > The resulting DN should not contain commas.
 
-Then request the client certificate.
+Then request the client certificate (currently by [email](mailto:awakari@awakari.com)).
 
 After the client certificate (`client.crt`) is received, create a pair of cluster secrets:
 ```shell
