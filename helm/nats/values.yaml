@@ -1,0 +1,29 @@
+# to be used for the alternative chart:
+# https://nats-io.github.io/k8s/helm/charts/
+
+container:
+  image:
+    tag: 2.10.18-scratch
+
+config:
+  auth:
+    enabled: true
+    user: "awakari"
+    password: "awakari"
+  cluster:
+    enabled: true
+    replicas: 3
+  jetstream:
+    enabled: true
+    fileStore:
+      pvc:
+        size: 8Gi
+
+podTemplate:
+  topologySpreadConstraints:
+    kubernetes.io/hostname:
+      maxSkew: 1
+      whenUnsatisfiable: DoNotSchedule
+
+natsBox:
+  enabled: false
