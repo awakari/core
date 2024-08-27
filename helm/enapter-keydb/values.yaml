@@ -1,0 +1,277 @@
+nameOverride: ""
+fullnameOverride: ""
+
+imageRepository: eqalpha/keydb
+imageTag: x86_64_v6.3.4
+imagePullPolicy: IfNotPresent
+imagePullSecrets: []
+
+nodes: 3
+
+password: ""
+existingSecret: ""
+existingSecretPasswordKey: "password"
+port: 6379
+portName: server
+internalPort: 6379
+internalPortName: keydb
+
+threads: 2
+
+multiMaster: "yes"
+activeReplicas: "yes"
+protectedMode: "no"
+appendonly: "no"
+
+annotations: {}
+
+configExtraArgs:
+  - maxmemory: "64mb"
+  - maxmemory-policy: "allkeys-lru"
+
+podAnnotations: {}
+
+tolerations: {}
+  # - effect: NoSchedule
+  #   key: key
+  #   operator: Equal
+  #   value: value
+
+nodeSelector: {}
+  # topology.kubernetes.io/region: some-region
+
+topologySpreadConstraints: []
+# - maxSkew: 1
+#   ## Optional keys
+#   # whenUnsatisfiable: DoNotSchedule
+#   # topologyKey: "topology.kubernetes.io/zone"
+#   # minDomains: 1
+#   # nodeAffinityPolicy: Honor
+#   # nodeTaintsPolicy: Honor
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - '{{ include "keydb.name" . }}'
+          - key: app.kubernetes.io/instance
+            operator: In
+            values:
+            - '{{ .Release.Name }}'
+        topologyKey: "kubernetes.io/hostname"
+
+additionalAffinities: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #         - key: node_pool
+  #           operator: In
+  #           values: somenodepool
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 1
+
+# Additional init containers
+extraInitContainers: []
+
+# Additional sidecar containers
+extraContainers: []
+# - name: backup
+#   image: minio/mc:latest
+
+# Volumes that can be used in init and sidecar containers
+extraVolumes: []
+#  - name: volume-from-secret
+#    secret:
+#      secretName: secret-to-mount
+#  - name: empty-dir-volume
+#    emptyDir: {}
+
+# Liveness Probe
+livenessProbe:
+  enabled: true
+  custom: {}
+  #  tcpSocket:
+  #    port: keydb
+  #  initialDelaySeconds: 30
+  initialDelaySeconds: 20
+  periodSeconds: 5
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+
+# Readiness Probe
+readinessProbe:
+  enabled: true
+  custom: {}
+  #  tcpSocket:
+  #    port: keydb
+  #  initialDelaySeconds: 30
+  initialDelaySeconds: 20
+  periodSeconds: 5
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 5
+
+# Random UUID for readiness GET probe
+readinessProbeRandomUuid: "90f717dd-0e68-43b8-9363-fddaad00d6c9"
+
+# Startup Probe
+startupProbe:
+  enabled: true
+  custom: {}
+  #  tcpSocket:
+  #    port: keydb
+  periodSeconds: 5
+  timeoutSeconds: 1
+  failureThreshold: 24
+
+# Lifecycle Hooks
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command:
+  #       - sh
+  #       - -c
+  #       - "sleep 15; kill 1"
+
+persistentVolume:
+  enabled: false
+  accessModes:
+    - ReadWriteOnce
+  selector: {}
+    # matchLabels:
+    #   release: "stable"
+    # matchExpressions:
+    #   - {key: environment, operator: In, values: [dev]}
+  size: 1Gi
+
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+
+  # If persistentVolume is disable, use this to configure the empty dir
+  emptyDir: {}
+
+resources: {}
+
+# Please read https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/#enabling-unsafe-sysctls
+# before sysctls setup
+securityContext: {}
+  # sysctls:
+  # - name: net.core.somaxconn
+  #   value: "512"
+  # - name: vm.overcommit_memory
+  #   value: "1"
+
+keydb:
+  # Container security context
+  securityContext: {}
+
+service:
+  annotations: {}
+  appProtocol:
+    enabled: false
+
+serviceAccount:
+  enabled: false
+  create: true
+  name: ""
+
+  # extraSpec:
+  #   automountServiceAccountToken: false
+  #   imagePullSecrets:
+  #   - name: pull-secret
+  extraSpec: {}
+
+loadBalancer:
+  enabled: false
+
+  # annotations:
+  #   service.beta.kubernetes.io/aws-load-balancer-type: nlb
+  annotations: {}
+
+  # extraSpec:
+  #   loadBalancerIP: "1.2.3.4"
+  #   loadBalancerSourceRanges:
+  #   - 1.2.3.4/32
+  extraSpec: {}
+
+# Prometheus-operator ServiceMonitor
+serviceMonitor:
+  # Redis exporter must also be enabled
+  enabled: false
+  labels:
+  annotations:
+  interval: 30s
+  # scrapeTimeout: 20s
+
+# Redis exporter
+exporter:
+  enabled: false
+  imageRepository: oliver006/redis_exporter
+  imageTag: v1.48.0-alpine
+  pullPolicy: IfNotPresent
+
+  # Prometheus port & scrape path
+  port: 9121
+  portName: redis-exporter
+  scrapePath: /metrics
+
+  # Liveness Probe
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: redis-exporter
+
+  # Readiness Probe
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: redis-exporter
+
+  # Startup Probe
+  startupProbe:
+    httpGet:
+      path: /health
+      port: redis-exporter
+    failureThreshold: 24
+    periodSeconds: 5
+
+  # CPU/Memory resource limits/requests
+  resources: {}
+
+  # Container security context
+  securityContext: {}
+
+  # Additional args for redis exporter
+  extraArgs: []
+    # - somesimple: "argument"
+    # - client-output-buffer-limit: ["normal", "0", "0", "0"]
+    # - client-output-buffer-limit: ["replica", "268435456", "67108864", "60"]
+    # - client-output-buffer-limit: ["pubsub", "33554432", "8388608", "60"]
+
+scripts:
+  enabled: false
+  # CPU/Memory resource limits/requests
+  resources: {}
+  # Container security context
+  securityContext: {}
+  cleanupCoredumps:
+    enabled: false
+    minutes: 1440
+  cleanupTempfiles:
+    enabled: true
+    minutes: 60
