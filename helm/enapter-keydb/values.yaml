@@ -26,7 +26,7 @@ appendonly: "no"
 annotations: {}
 
 configExtraArgs:
-  - maxmemory: "64mb"
+  - maxmemory: "16mb"
   - maxmemory-policy: "allkeys-lru"
 
 podAnnotations: {}
