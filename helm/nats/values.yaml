@@ -3,7 +3,7 @@
 
 container:
   image:
-    tag: 2.10.18-scratch
+    tag: 2.11.6-scratch
 
 config:
   auth:
@@ -11,19 +11,20 @@ config:
     user: "awakari"
     password: "awakari"
   cluster:
-    enabled: true
-    replicas: 3
+    enabled: false
+    replicas: 1
   jetstream:
     enabled: true
     fileStore:
       pvc:
-        size: 8Gi
+        size: 10Gi
+        storageClassName: "default"
 
-podTemplate:
-  topologySpreadConstraints:
-    kubernetes.io/hostname:
-      maxSkew: 1
-      whenUnsatisfiable: DoNotSchedule
+# podTemplate:
+#  topologySpreadConstraints:
+#    kubernetes.io/hostname:
+#      maxSkew: 1
+#      whenUnsatisfiable: DoNotSchedule
 
 natsBox:
   enabled: false
